@@ -9,6 +9,7 @@ public class DbUserObject {
     private int mPassHash;
     private String mName;
     private String mSurname;
+    private float mBalance;
 
     public DbUserObject(String name, String surname, String email, int passHash) {
         super();
@@ -16,12 +17,14 @@ public class DbUserObject {
         mPassHash = passHash;
         mName = name;
         mSurname = surname;
+        mBalance = 0;
     }
 
     public DbUserObject(String email, int passHash) {
         super();
         mEmail = email;
         mPassHash = passHash;
+        mBalance = 0;
     }
 
     public String getEmail() {
@@ -40,6 +43,10 @@ public class DbUserObject {
         return mPassHash;
     }
 
+    public float getBalance() {
+        return mBalance;
+    }
+
     public void setEmail(String email) {
         mEmail = email;
     }
@@ -56,9 +63,21 @@ public class DbUserObject {
         mPassHash = passHash;
     }
 
+    public void setBalance(float balance) {
+        mBalance = balance;
+    }
+
+    public void addBalance(float balance) {
+        mBalance += balance;
+    }
+
+    public void subtractBalance(float balance) {
+        mBalance -= balance;
+    }
+
     @Override
     public String toString() {
         return "User [Name=" + mName + ", Surname=" + mSurname + ", Email=" + mEmail
-                + ", PasswordHash=" + mPassHash + "]";
+                + ", PasswordHash=" + mPassHash + ", Balance=" + mBalance + "$]";
     }
 }

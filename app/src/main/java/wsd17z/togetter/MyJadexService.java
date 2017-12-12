@@ -15,7 +15,7 @@ public class MyJadexService extends JadexPlatformService {
         setPlatformAutostart(false);
         PlatformConfiguration config = getPlatformConfiguration();
         config.setPlatformName(PLATFORM_NAME);
-        config.addComponent("wsd17z.togetter.Agents.MyAgent.class");
+        config.addComponent("wsd17z.togetter.Agents.ClientManagementAgent.class");
         config.addComponent("wsd17z.togetter.Agents.DbManagementAgent.class");
         RootComponentConfiguration rootConfig = config.getRootConfig();
         rootConfig.setAwareness(true);

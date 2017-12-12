@@ -9,7 +9,7 @@ import wsd17z.togetter.Agents.DbManagementAgent;
  */
 
 @Service
-public class DbManagementService implements IDbManagementInterface {
+public class DbManagementService implements IDbManagementService {
     @ServiceComponent
     private DbManagementAgent agent;
 
@@ -24,6 +24,13 @@ public class DbManagementService implements IDbManagementInterface {
     {
         agent.addUser(userObject);
     }
+
+    @Override
+    public void updateUser(DbUserObject userObject)
+    {
+        agent.updateUser(userObject);
+    }
+
 
     @Override
     public void deleteUser(DbUserObject userObject) {

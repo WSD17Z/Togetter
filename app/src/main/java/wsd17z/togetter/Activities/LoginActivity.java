@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import wsd17z.togetter.DbManagement.DbUserObject;
-import wsd17z.togetter.DbManagement.IDbManagementInterface;
+import wsd17z.togetter.DbManagement.IDbManagementService;
 import wsd17z.togetter.R;
 
 public class LoginActivity extends AppCompatActivity
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity
 
             //database, check login/pass
             if(MainActivity.getPlatform() != null) {
-                IDbManagementInterface dbAgent = MainActivity.getPlatform().getService(IDbManagementInterface.class).get();
+                IDbManagementService dbAgent = MainActivity.getPlatform().getService(IDbManagementService.class).get();
                 DbUserObject user = dbAgent.getUser(login);
                 if (user != null && user.getPassHash() == passHash) {
                     // SUCCESS, do some success stuff

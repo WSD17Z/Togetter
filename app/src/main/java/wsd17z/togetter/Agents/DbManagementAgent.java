@@ -13,7 +13,7 @@ import jadex.micro.annotation.ProvidedServices;
 import wsd17z.togetter.DbManagement.DbUserObject;
 import wsd17z.togetter.DbManagement.MySQLiteHelper;
 import wsd17z.togetter.DbManagement.DbManagementService;
-import wsd17z.togetter.DbManagement.IDbManagementInterface;
+import wsd17z.togetter.DbManagement.IDbManagementService;
 
 /**
  * Created by Kosmos on 05/12/2017.
@@ -21,10 +21,10 @@ import wsd17z.togetter.DbManagement.IDbManagementInterface;
 
 @Agent
 @ProvidedServices({
-        @ProvidedService(name="dbmanager", type=IDbManagementInterface.class, implementation = @Implementation(DbManagementService.class))
+        @ProvidedService(name="dbmanager", type=IDbManagementService.class, implementation = @Implementation(DbManagementService.class))
 })
 
-public class DbManagementAgent implements IDbManagementInterface
+public class DbManagementAgent implements IDbManagementService
 {
     private static MySQLiteHelper mDb;
 
@@ -38,6 +38,9 @@ public class DbManagementAgent implements IDbManagementInterface
         mDb = new MySQLiteHelper(ctx);
         try {
             mDb.addUser(new DbUserObject("michal", "Michaller", "mkk@test.com", "pass123$%".hashCode()));
+            mDb.addUser(new DbUserObject("kuba", "Chicago", "kuba@test.com", "pass123$%".hashCode()));
+            mDb.addUser(new DbUserObject("ania", "Drawers", "ania@test.com", "pass123$%".hashCode()));
+            mDb.addUser(new DbUserObject("brunhilda", "Giggity", "brudzia@test.com", "pass123$%".hashCode()));
         } catch (SQLiteConstraintException ex) {
             Log.d("DB DATA", "Database already initialized with debug data.");
         }
@@ -68,4 +71,13 @@ public class DbManagementAgent implements IDbManagementInterface
             mDb.deleteUser(userObject);
         }
     }
+
+    @Override
+    public void updateUser(DbUserObject userObject)
+    {
+        if (mDb != null) {
+            mDb.updateUser(userObject);
+        }
+    }
+
 }
