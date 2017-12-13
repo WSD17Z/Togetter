@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".Activities.ChooseRoleActivity" />
         <activity android:name=".Activities.LoginActivity"/>
+        <activity android:name=".Activities.ChooseRouteRiderActivity"/>
     </application>
 
 </manifest>

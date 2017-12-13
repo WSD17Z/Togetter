@@ -1,5 +1,6 @@
 package wsd17z.togetter.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,8 +31,24 @@ public class ChooseRoleActivity extends AppCompatActivity {
                 public void onClick(View v) { changeUiRider(); }
             }
         );
-    }
 
+
+        // do wywalenia w przyszlosci
+
+        findViewById(R.id.buttonTest).setOnClickListener(new View.OnClickListener() {
+                                                             @Override
+                                                             public void onClick(View v) { changeTest(); }
+                                                         }
+        );
+        //
+    }
+    // do wywalenia w przyszlosci
+
+    private void changeTest() {
+        Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
+        startActivity(intent);
+    }
+    //
 
     private void changeUiDriver() {
         //Intent intent = new Intent(getBaseContext(), SOME.class);
