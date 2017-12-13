@@ -14,17 +14,17 @@ public class WalletService implements IWalletService {
     private WalletAgent agent;
 
     @Override
-    public float getBalance(String email) {
+    public double getBalance(String email) {
         return agent.getBalance(email);
     }
 
     @Override
-    public boolean checkFunds(String email, float value) {
+    public boolean checkFunds(String email, double value) {
         return agent.checkFunds(email, value);
     }
 
     @Override
-    public boolean transferFunds(String fromEmail, String toEmail, float value) {
+    public boolean transferFunds(String fromEmail, String toEmail, double value) {
         return agent.transferFunds(fromEmail, toEmail, value);
     }
 }

@@ -9,7 +9,7 @@ public class DbUserObject {
     private int mPassHash;
     private String mName;
     private String mSurname;
-    private float mBalance;
+    private double mBalance;
 
     public DbUserObject(String name, String surname, String email, int passHash) {
         super();
@@ -43,7 +43,7 @@ public class DbUserObject {
         return mPassHash;
     }
 
-    public float getBalance() {
+    public double getBalance() {
         return mBalance;
     }
 
@@ -63,15 +63,15 @@ public class DbUserObject {
         mPassHash = passHash;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(double balance) {
         mBalance = balance;
     }
 
-    public void addBalance(float balance) {
+    public void addBalance(double balance) {
         mBalance += balance;
     }
 
-    public void subtractBalance(float balance) {
+    public void subtractBalance(double balance) {
         mBalance -= balance;
     }
 

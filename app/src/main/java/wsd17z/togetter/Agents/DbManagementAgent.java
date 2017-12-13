@@ -10,6 +10,7 @@ import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
+import wsd17z.togetter.DbManagement.DbOfferObject;
 import wsd17z.togetter.DbManagement.DbUserObject;
 import wsd17z.togetter.DbManagement.MySQLiteHelper;
 import wsd17z.togetter.DbManagement.DbManagementService;
@@ -77,6 +78,32 @@ public class DbManagementAgent implements IDbManagementService
     {
         if (mDb != null) {
             mDb.updateUser(userObject);
+        }
+    }
+
+    @Override
+    public DbOfferObject getPickupOffer(long id)
+    {
+        if (mDb != null) {
+            return mDb.getOffer(id);
+        }
+
+        return null;
+    }
+
+    @Override
+    public long addPickupOffer(DbOfferObject offer) {
+        if (mDb != null) {
+            return mDb.addOffer(offer);
+        }
+
+        return -1;
+    }
+
+    @Override
+    public void updatePickupOffer(long id, DbOfferObject offer) {
+        if (mDb != null) {
+            mDb.updateOffer(id, offer);
         }
     }
 

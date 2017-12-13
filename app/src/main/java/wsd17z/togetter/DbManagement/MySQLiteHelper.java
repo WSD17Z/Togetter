@@ -17,12 +17,23 @@ import java.util.List;
 public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "TogetterDB";
+    // USERS
     private static final String TABLE_USERS = "users";
     private static final String KEY_NAME = "name";
     private static final String KEY_SURNAME = "surname";
     private static final String KEY_LOGIN = "login";
     private static final String KEY_PASS = "pass";
-    private static final String[] COLUMNS = { KEY_NAME, KEY_SURNAME, KEY_LOGIN, KEY_PASS };
+    private static final String[] USERS_COLUMNS = { KEY_NAME, KEY_SURNAME, KEY_LOGIN, KEY_PASS };
+    // OFFERS
+    private static final String TABLE_OFFERS = "offers";
+    private static final String KEY_ID = "id";
+    private static final String KEY_CLIENT = "client";
+    private static final String KEY_DRIVER = "driver";
+    private static final String KEY_PRICE = "client";
+    private static final String KEY_STARTED = "started";
+    private static final String KEY_ENDED = "ended";
+    private static final String KEY_PAID = "paid";
+    private static final String[] OFFERS_COLUMNS = { KEY_ID, KEY_CLIENT, KEY_DRIVER, KEY_PRICE, KEY_STARTED, KEY_ENDED, KEY_PAID };
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,18 +41,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStr = "CREATE TABLE " + TABLE_USERS + " ( " +
+        String createTableStr = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " ( " +
                 KEY_NAME + " TEXT, "+
                 KEY_SURNAME + " TEXT, "+
-                KEY_LOGIN + " TEXT PRIMARY KEY, "+
-                KEY_PASS + " INTEGER )";
+                KEY_LOGIN + " TEXT PRIMARY KEY NOT NULL, "+
+                KEY_PASS + " INTEGER NOT NULL)";
+        db.execSQL(createTableStr);
 
+        createTableStr = "CREATE TABLE IF NOT EXISTS " + TABLE_OFFERS + " ( " +
+                KEY_ID + " INT PRIMARY KEY AUTOINCREMENT, "+
+                KEY_CLIENT + " TEXT NOT NULL, "+
+                " FOREIGN KEY ("+KEY_CLIENT+") REFERENCES "+TABLE_USERS+"("+KEY_LOGIN+"),"+
+                KEY_DRIVER + " TEXT NOT NULL, "+
+                " FOREIGN KEY ("+KEY_DRIVER+") REFERENCES "+TABLE_USERS+"("+KEY_LOGIN+"),"+
+                KEY_PRICE + " REAL NOT NULL"+
+                KEY_STARTED + " INTEGER NOT NULL"+
+                KEY_ENDED + " INTEGER NOT NULL"+
+                KEY_PAID + " INTEGER NOT NULL)";
         db.execSQL(createTableStr);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OFFERS);
 
         this.onCreate(db);
     }
@@ -70,7 +93,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Cursor cursor =
                 db.query(TABLE_USERS,
-                        COLUMNS,
+                        USERS_COLUMNS,
                         KEY_LOGIN + " = ?",
                         new String[] { login },
                         null,
@@ -149,5 +172,76 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
 
         Log.d("deleteUser", obj.toString());
+    }
+
+    public long addOffer(DbOfferObject obj) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CLIENT, obj.getClientEmail());
+        values.put(KEY_DRIVER, obj.getDriverEmail());
+        values.put(KEY_PRICE, obj.getPrice());
+        values.put(KEY_STARTED, obj.getStarted() ? 1 : 0);
+        values.put(KEY_ENDED, obj.getEnded() ? 1 : 0);
+        values.put(KEY_PAID, obj.getPaid() ? 1 : 0);
+
+        long id = db.insert(TABLE_OFFERS,
+                null,
+                values);
+
+        db.close();
+
+        return id;
+    }
+
+    public DbOfferObject getOffer(long offerId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor =
+                db.query(TABLE_OFFERS,
+                        OFFERS_COLUMNS,
+                        KEY_ID + " = ?",
+                        new String[] { String.valueOf(offerId) },
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        DbOfferObject offer = new DbOfferObject(
+                cursor.getDouble(3),
+                cursor.getInt(4) != 0,
+                cursor.getInt(5) != 0,
+                cursor.getInt(6) != 0,
+                cursor.getString(1),
+                cursor.getString(2)
+        );
+
+        return offer;
+    }
+
+    public int updateOffer(long offerId, DbOfferObject obj) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CLIENT, obj.getClientEmail());
+        values.put(KEY_DRIVER, obj.getDriverEmail());
+        values.put(KEY_PRICE, obj.getPrice());
+        values.put(KEY_STARTED, obj.getStarted() ? 1 : 0);
+        values.put(KEY_ENDED, obj.getEnded() ? 1 : 0);
+        values.put(KEY_PAID, obj.getPaid() ? 1 : 0);
+
+        int i = db.update(TABLE_OFFERS,
+                values,
+                KEY_ID + " = ?",
+                new String[] { String.valueOf(offerId) });
+
+        db.close();
+
+        return i;
+
     }
 }

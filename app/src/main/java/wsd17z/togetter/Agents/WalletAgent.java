@@ -40,23 +40,23 @@ public class WalletAgent implements IWalletService
     }
 
     @Override
-    public float getBalance(String email) {
+    public double getBalance(String email) {
         DbUserObject user = dbManagementService.getUser(email);
         return user != null ? user.getBalance() : 0f;
     }
 
     @Override
-    public boolean checkFunds(String email, float value) {
+    public boolean checkFunds(String email, double value) {
         DbUserObject user = dbManagementService.getUser(email);
         return checkFunds(user, value);
     }
 
-    private boolean checkFunds(DbUserObject user, float value) {
+    private boolean checkFunds(DbUserObject user, double value) {
         return user != null && user.getBalance() >= value;
     }
 
     @Override
-    public boolean transferFunds(String fromEmail, String toEmail, float value) {
+    public boolean transferFunds(String fromEmail, String toEmail, double value) {
         DbUserObject userFrom = dbManagementService.getUser(fromEmail);
         if (checkFunds(userFrom, value)) {
             DbUserObject userTo = dbManagementService.getUser(fromEmail);

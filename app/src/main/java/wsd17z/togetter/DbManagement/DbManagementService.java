@@ -26,14 +26,27 @@ public class DbManagementService implements IDbManagementService {
     }
 
     @Override
-    public void updateUser(DbUserObject userObject)
-    {
+    public void updateUser(DbUserObject userObject) {
         agent.updateUser(userObject);
     }
-
 
     @Override
     public void deleteUser(DbUserObject userObject) {
         agent.deleteUser(userObject);
+    }
+
+    @Override
+    public DbOfferObject getPickupOffer(long offerId) {
+        return agent.getPickupOffer(offerId);
+    }
+
+    @Override
+    public long addPickupOffer(DbOfferObject offer) {
+        return agent.addPickupOffer(offer);
+    }
+
+    @Override
+    public void updatePickupOffer(long id, DbOfferObject offer) {
+        agent.updatePickupOffer(id, offer);
     }
 }

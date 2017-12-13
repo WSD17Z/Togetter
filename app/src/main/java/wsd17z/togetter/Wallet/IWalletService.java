@@ -6,7 +6,7 @@ package wsd17z.togetter.Wallet;
 
 public interface IWalletService
 {
-    float getBalance(String email);
-    boolean checkFunds(String email, float value);
-    boolean transferFunds(String fromEmail, String toEmail, float value);
+    double getBalance(String email);
+    boolean checkFunds(String email, double value);
+    boolean transferFunds(String fromEmail, String toEmail, double value);
 }

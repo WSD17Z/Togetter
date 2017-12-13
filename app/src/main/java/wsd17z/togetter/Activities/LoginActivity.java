@@ -10,7 +10,10 @@ import android.widget.EditText;
 
 import wsd17z.togetter.DbManagement.DbUserObject;
 import wsd17z.togetter.DbManagement.IDbManagementService;
+import wsd17z.togetter.Driver.IDriverService;
 import wsd17z.togetter.R;
+
+import static jadex.bridge.service.RequiredServiceInfo.SCOPE_LOCAL;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -41,7 +44,14 @@ public class LoginActivity extends AppCompatActivity
                 if (user != null && user.getPassHash() == passHash) {
                     // SUCCESS, do some success stuff
                     Log.d("LOGIN", "success");
+
+                    // Set login for local driver agent
+                    IDriverService driver = MainActivity.getPlatform().getService(IDriverService.class, SCOPE_LOCAL).get();
+                    driver.setEmail(login);
+
+                    // TODO: forward login through intent extras and set it after choosing a role
                     Intent intent = new Intent(getBaseContext(), ChooseRoleActivity.class);
+                    intent.putExtra("Login", login);
                     startActivity(intent);
                 }
             }
