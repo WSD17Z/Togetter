@@ -107,4 +107,11 @@ public class DbManagementAgent implements IDbManagementService
         }
     }
 
+    @Override
+    public void deleteUnstartedPickups(String clientEmail) {
+        if (mDb != null) {
+            mDb.deleteUnstartedOffers(clientEmail);
+        }
+    }
+
 }

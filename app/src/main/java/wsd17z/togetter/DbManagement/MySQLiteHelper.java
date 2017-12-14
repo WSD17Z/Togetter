@@ -121,7 +121,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + TABLE_USERS;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -221,6 +221,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         );
 
         return offer;
+    }
+
+    public void deleteUnstartedOffers(String clientEmail) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.delete(TABLE_OFFERS,
+                KEY_CLIENT + "=? AND " + KEY_STARTED + "=?",
+                new String[] { clientEmail, String.valueOf(false) });
+
+        db.close();
     }
 
     public int updateOffer(long offerId, DbOfferObject obj) {

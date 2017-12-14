@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 public interface IPickupService
 {
     PickupOffer createPickupOffer(LatLng start, LatLng end, String email);
-    void realizePickup(String email);
-    void startPickup(String email);
-    void endPickup(String email);
+    void realizePickup(String driverEmail, String email);
+    void startPickup(String driverEmail, String email);
+    void endPickup(String driverEmail, String email);
 }

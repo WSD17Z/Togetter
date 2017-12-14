@@ -14,4 +14,5 @@ public interface IDbManagementService
     DbOfferObject getPickupOffer(long offerId);
     long addPickupOffer(DbOfferObject offer);
     void updatePickupOffer(long offerId, DbOfferObject offer);
+    void deleteUnstartedPickups(String clientEmail);
 }

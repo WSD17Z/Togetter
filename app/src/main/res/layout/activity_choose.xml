@@ -14,22 +14,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--
-        buttonbuttonTest do usuniecia w przyszlosci
-        -->
-
-
-        <Button
-            android:id="@+id/buttonTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TEST" />
-
-
-
-
-
         <Button
             android:id="@+id/driverBtn"
             android:layout_width="wrap_content"
@@ -42,6 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RIDER" />
+            android:text="Client" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@ import wsd17z.togetter.Agents.DriverAgent;
  */
 
 @Service
-public class DriverService implements IDriverService {
+public class UserService implements IUserService {
     @ServiceComponent
     private DriverAgent agent;
 

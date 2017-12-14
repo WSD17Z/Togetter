@@ -8,12 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import wsd17z.togetter.DbManagement.DbUserObject;
-import wsd17z.togetter.DbManagement.IDbManagementService;
-import wsd17z.togetter.Driver.IDriverService;
 import wsd17z.togetter.R;
-
-import static jadex.bridge.service.RequiredServiceInfo.SCOPE_LOCAL;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -48,7 +43,7 @@ public class LoginActivity extends AppCompatActivity
 //                    Log.d("LOGIN", "success");
 //
 //                    // Set login for local driver agent
-//                    IDriverService driver = MainActivity.getPlatform().getService(IDriverService.class, SCOPE_LOCAL).get();
+//                    IUserService driver = MainActivity.getPlatform().getService(IUserService.class, SCOPE_LOCAL).get();
 //                    driver.setEmail(login);
 
                     // TODO: forward login through intent extras and set it after choosing a role

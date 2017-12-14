@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import jadex.android.service.JadexPlatformBinder;
+import jadex.bridge.IComponentIdentifier;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.IResultListener;

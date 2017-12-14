@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Kosmos on 05/12/2017.
  */
 
-public interface IDriverService
+public interface IUserService
 {
     void setEndPoints(LatLng start, LatLng end);
     void setEmail(String email);

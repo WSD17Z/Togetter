@@ -21,17 +21,17 @@ public class PickupService implements IPickupService {
     }
 
     @Override
-    public void realizePickup(String email) {
-        agent.realizePickup(email);
+    public void realizePickup(String driverEmail, String email) {
+        agent.realizePickup(driverEmail, email);
     }
 
     @Override
-    public void startPickup(String email) {
-        agent.startPickup(email);
+    public void startPickup(String driverEmail, String email) {
+        agent.startPickup(driverEmail, email);
     }
 
     @Override
-    public void endPickup(String email) {
-        agent.endPickup(email);
+    public void endPickup(String driverEmail, String email) {
+        agent.endPickup(driverEmail, email);
     }
 }

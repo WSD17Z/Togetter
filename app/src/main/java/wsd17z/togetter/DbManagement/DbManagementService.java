@@ -49,4 +49,10 @@ public class DbManagementService implements IDbManagementService {
     public void updatePickupOffer(long id, DbOfferObject offer) {
         agent.updatePickupOffer(id, offer);
     }
+
+    @Override
+    public void deleteUnstartedPickups(String clientEmail) {
+        agent.deleteUnstartedPickups(clientEmail);
+    }
+
 }

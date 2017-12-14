@@ -1,6 +1,7 @@
 package wsd17z.togetter.Agents;
 
 import android.util.ArraySet;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -23,7 +24,8 @@ import jadex.micro.annotation.RequiredServices;
 
 import wsd17z.togetter.DbManagement.DbOfferObject;
 import wsd17z.togetter.DbManagement.IDbManagementService;
-import wsd17z.togetter.Driver.IDriverService;
+import wsd17z.togetter.Driver.UserService;
+import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.PickupService;
 import wsd17z.togetter.Driver.PickupOffer;
@@ -36,14 +38,14 @@ import wsd17z.togetter.Wallet.IWalletService;
 @Agent
 @ProvidedServices({
         @ProvidedService(name="pickup", type=IPickupService.class, implementation = @Implementation(PickupService.class)),
-        @ProvidedService(name="driver", type=IPickupService.class, implementation = @Implementation(PickupService.class))
+        @ProvidedService(name="user", type=IUserService.class, implementation = @Implementation(UserService.class), scope = RequiredServiceInfo.SCOPE_COMPONENT)
 })
 @RequiredServices({
         @RequiredService(name="wallet", type=IWalletService.class, binding=@Binding(scope= RequiredServiceInfo.SCOPE_GLOBAL)),
         @RequiredService(name="dbmanager", type=IDbManagementService.class, binding=@Binding(scope= RequiredServiceInfo.SCOPE_GLOBAL))
 })
 
-public class DriverAgent implements IPickupService, IDriverService
+public class DriverAgent implements IPickupService, IUserService
 {
     private Tuple2<LatLng, LatLng> mEndPoints;
     private Set<LatLng> mWaypoints;
@@ -78,7 +80,11 @@ public class DriverAgent implements IPickupService, IDriverService
 
     @Override
     public void setEmail(String email) {
-        mUserEmail = email;
+        if (mUserEmail == null) {
+            mUserEmail = email;
+        } else {
+            Log.d("SECURITY WARNING", "Trying to reset users login!");
+        }
     }
 
     /*
@@ -98,7 +104,7 @@ public class DriverAgent implements IPickupService, IDriverService
         double pickupDist = 5d;
         double cost = pickupDist * mPricePerKm;
 
-        PickupOffer offer = new PickupOffer(start, end, 0, 0, cost, email);
+        PickupOffer offer = new PickupOffer(start, end, 0, 0, cost, email, mUserEmail);
         mClients.put(email, offer);
         return offer;
     }
@@ -113,7 +119,10 @@ public class DriverAgent implements IPickupService, IDriverService
         Id of the element in db will be added to offer in the map.
      */
     @Override
-    public void realizePickup(String email) {
+    public void realizePickup(String driverEmail, String email) {
+        if (driverEmail != mUserEmail) {
+            return;
+        }
         if (mClients.containsKey(email)) {
             PickupOffer offer = mClients.get(email);
             DbOfferObject dbOffer = new DbOfferObject(offer, email);
@@ -135,12 +144,16 @@ public class DriverAgent implements IPickupService, IDriverService
         Updates offer in db to indicate, that it started.
      */
     @Override
-    public void startPickup(String email) {
+    public void startPickup(String driverEmail, String email) {
+        if (driverEmail != mUserEmail) {
+            return;
+        }
         if (mClients.containsKey(email)) {
             PickupOffer offer = mClients.get(email);
             DbOfferObject dbOffer = dbManagementService.getPickupOffer(offer.getId());
             dbOffer.setStarted(true);
             dbManagementService.updatePickupOffer(offer.getId(), dbOffer);
+            dbManagementService.deleteUnstartedPickups(email);
         }
 
         //TODO: go back to navigation
@@ -152,7 +165,10 @@ public class DriverAgent implements IPickupService, IDriverService
         in the database. Client along with his offer is removed from the drivers map.
      */
     @Override
-    public void endPickup(String email) {
+    public void endPickup(String driverEmail, String email) {
+        if (driverEmail != mUserEmail) {
+            return;
+        }
         if (mClients.containsKey(email)) {
             PickupOffer offer = mClients.get(email);
             DbOfferObject dbOffer = dbManagementService.getPickupOffer(offer.getId());

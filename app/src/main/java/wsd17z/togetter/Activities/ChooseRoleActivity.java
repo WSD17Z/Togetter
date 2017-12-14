@@ -3,8 +3,16 @@ package wsd17z.togetter.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
+import jadex.bridge.IComponentIdentifier;
+import jadex.commons.future.IFuture;
+import jadex.commons.future.IResultListener;
+import wsd17z.togetter.Agents.ClientAgent;
+import wsd17z.togetter.Agents.DriverAgent;
+import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.R;
 
 /**
@@ -13,6 +21,7 @@ import wsd17z.togetter.R;
 
 public class ChooseRoleActivity extends AppCompatActivity {
     private String mLogin;
+    private Button driverBtn, clientBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,45 +29,49 @@ public class ChooseRoleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose);
 
         mLogin = getIntent().getStringExtra("Login");
+        driverBtn = findViewById(R.id.driverBtn);
+        clientBtn = findViewById(R.id.riderBtn);
+        findViewById(R.id.driverBtn).setOnClickListener(buttonListener);
+        findViewById(R.id.riderBtn).setOnClickListener(buttonListener);
+    }
 
-        findViewById(R.id.driverBtn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { changeUiDriver();}
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
+            Class agentClass = ClientAgent.class;
+
+            if (v == driverBtn) {
+                intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
+                agentClass = DriverAgent.class;
             }
-        );
-        findViewById(R.id.riderBtn).setOnClickListener(new View.OnClickListener() {
+
+            IFuture<IComponentIdentifier> futureCid = MainActivity.getPlatform().startComponent("togetterUser", agentClass);
+            futureCid.addResultListener(new IResultListener<IComponentIdentifier>() {
                 @Override
-                public void onClick(View v) { changeUiRider(); }
-            }
-        );
+                public void exceptionOccurred(Exception exception) {
+                }
 
+                @Override
+                public void resultAvailable(IComponentIdentifier result) {
+                    IFuture<IUserService> userFuture = MainActivity.getPlatform().getService(MainActivity.getPlatform().getPlatformId(), IUserService.class);
+                    userFuture.addResultListener(new IResultListener<IUserService>() {
+                        @Override
+                        public void exceptionOccurred(Exception exception) {
+                            Log.d("ERR", exception.toString());
+                        }
 
-        // do wywalenia w przyszlosci
+                        @Override
+                        public void resultAvailable(IUserService result) {
+                            result.setEmail(mLogin);
+                        }
+                    });
+                }
+            });
 
-        findViewById(R.id.buttonTest).setOnClickListener(new View.OnClickListener() {
-                                                             @Override
-                                                             public void onClick(View v) { changeTest(); }
-                                                         }
-        );
-        //
-    }
-    // do wywalenia w przyszlosci
-
-    private void changeTest() {
-        Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
-        startActivity(intent);
-    }
-    //
-
-    private void changeUiDriver() {
-        //Intent intent = new Intent(getBaseContext(), SOME.class);
-        //intent.putExtra("Login", mLogin);
-        //startActivity(intent);
-    }
-
-    private void changeUiRider() {
-        //Intent intent = new Intent(getBaseContext(), SOMEOTHER.class);
-        //intent.putExtra("Login", mLogin);
-        //startActivity(intent);
-    }
+            intent.putExtra("Login", mLogin);
+            startActivity(intent);
+        }
+    };
 }
