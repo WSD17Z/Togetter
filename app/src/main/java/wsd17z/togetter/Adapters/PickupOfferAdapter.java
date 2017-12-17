@@ -45,10 +45,9 @@ public class PickupOfferAdapter extends ArrayAdapter<PickupOffer>{
 
 
             if (tt1 != null) {
-                tt1.setText(Long.toString(offer.getId()) + " " + offer.getEndPoints().toString()
-                + " " + Double.toString(offer.getStartEta()) + " " + Double.toString(offer.getEndEta())
-                + Double.toString(offer.getTotalCost()) + " " + offer.getEmail() + " " +
-                        offer.getDriverEmail());
+                tt1.setText("OFFERT " + Long.toString(offer.getId()) + " START TIME: " + Double.toString(offer.getStartEta()) +
+                        " ARRIVAL TIME: " + Double.toString(offer.getEndEta()) + " TOTAL COST: "
+                        + Double.toString(offer.getTotalCost()) + " DRIVER EMAIL: " + offer.getDriverEmail());
 
             }
 
