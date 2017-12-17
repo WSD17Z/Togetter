@@ -42,6 +42,8 @@
         <activity android:name=".Activities.DriverSetParametersActivity"/>
         <activity android:name=".Activities.RiderWaitingActivity"/>
         <activity android:name=".Activities.ClientSearchRouteActivity"/>
+        <activity android:name=".Activities.DriverSetRoadActivity"/>
+        <activity android:name=".Activities.RidingClientActivity"/>
     </application>
 
 </manifest>

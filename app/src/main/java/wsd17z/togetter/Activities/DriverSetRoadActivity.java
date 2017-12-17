@@ -25,10 +25,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import wsd17z.togetter.MapsModules.DirectionFinder;
+import wsd17z.togetter.MapsModules.DirectionFinderListener;
+import wsd17z.togetter.MapsModules.Route;
 import wsd17z.togetter.R;
-import wsd17z.togetter.MapsModules.*;
 
-public class ClientSearchRouteActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
+public class DriverSetRoadActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
 
     private GoogleMap mMap;
     private Button btnFindPath;
@@ -42,7 +44,7 @@ public class ClientSearchRouteActivity extends FragmentActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_search_route);
+        setContentView(R.layout.activity_driver_set_road);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

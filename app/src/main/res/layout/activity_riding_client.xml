@@ -2,11 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="wsd17z.togetter.Activities.ClientSearchRouteActivity"
+    tools:context="wsd17z.togetter.Activities.RidingClientActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"  >
-
+/*
+    Todo: zrobic buttona czy dojechał i wywalić wpisywanie adresu*/
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
