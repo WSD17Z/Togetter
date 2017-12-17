@@ -24,6 +24,8 @@
         <activity android:name=".Activities.ChooseRoleActivity" />
         <activity android:name=".Activities.LoginActivity"/>
         <activity android:name=".Activities.ChooseRouteRiderActivity"/>
+        <activity android:name=".Activities.DriverSetParametersActivity"/>
+        <activity android:name=".Activities.RiderWaitingActivity"/>
     </application>
 
 </manifest>

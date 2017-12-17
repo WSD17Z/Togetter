@@ -43,7 +43,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
             Class agentClass = ClientAgent.class;
 
             if (v == driverBtn) {
-                intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
+                intent = new Intent(getBaseContext(), DriverSetParametersActivity.class);
                 agentClass = DriverAgent.class;
             }
 

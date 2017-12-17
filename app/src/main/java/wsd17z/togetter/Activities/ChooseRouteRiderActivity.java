@@ -11,9 +11,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import wsd17z.togetter.Adapters.PickupOfferAdapter;
+import wsd17z.togetter.Driver.PickupOffer;
 import wsd17z.togetter.R;
 
 /**
@@ -22,35 +26,35 @@ import wsd17z.togetter.R;
 
 public class ChooseRouteRiderActivity extends AppCompatActivity {
     private ListView list;
-    private ArrayAdapter<String> adapter;
+    private PickupOfferAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route_rider);
-
+        PickupOffer test1 = new PickupOffer(new LatLng(0.123, 0.222),
+                new LatLng(0.222, 0.555), 0.0, 2.0, 21.2,"lala@trala.com" );
+        PickupOffer test2 = new PickupOffer(new LatLng(0.123, 0.222),
+                new LatLng(0.222, 0.555), 0.0, 2.0, 30.2,"lala@trala.com" );
         list = findViewById(R.id.listViewCZ1);
-
-        String offers[] = {"Offert1", "Offert2", "Offert3", "Offert4"};
-
-        ArrayList<String> offersL = new ArrayList<>();
-        offersL.addAll(Arrays.asList(offers));
-
-        adapter = new ArrayAdapter<>(this, R.layout.row, offersL);
+        adapter = new PickupOfferAdapter(this, R.layout.pick_up_offer_adapter);
+        adapter.addAll(test1, test2);
         list.setAdapter(adapter);
+
         Button buttonAcc = findViewById(R.id.buttonCZ4);
         final TextView chosenOffer = findViewById(R.id.textViewCZ8);
-
 
         list.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = list.getItemAtPosition(position);
+                PickupOffer puo = (PickupOffer) o;
                 Log.d("LISTA_OFERT", "Kliknales " +  o.toString());
-                chosenOffer.setText(o.toString());
+                chosenOffer.setText(Long.toString(puo.getId()));
 
             }
         });
     }
+
 }
