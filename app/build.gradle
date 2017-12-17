@@ -46,4 +46,9 @@ dependencies {
     // REST client:
     implementation 'org.activecomponents.jadex:jadex-platform-extension-webservice-android:3.0.69'
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
+
+    implementation 'com.google.firebase:firebase-core:11.6.2'
+    implementation 'com.google.firebase:firebase-messaging:11.6.2'
 }
+
+apply plugin: 'com.google.gms.google-services'
