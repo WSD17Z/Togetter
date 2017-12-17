@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "450199413178",
+    "firebase_url": "https://togetter-d54bb.firebaseio.com",
+    "project_id": "togetter-d54bb",
+    "storage_bucket": "togetter-d54bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450199413178:android:c71ec488c170aeac",
+        "android_client_info": {
+          "package_name": "com.example.kosmos.jadextest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450199413178-m0le0fppdrrq843e10p83k1ec0gt3iev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3rLhWklg36VJWIU20WJF0WHva9dBAj10"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
