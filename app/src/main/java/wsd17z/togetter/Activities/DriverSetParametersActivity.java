@@ -1,5 +1,6 @@
 package wsd17z.togetter.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -72,8 +73,8 @@ public class DriverSetParametersActivity extends AppCompatActivity {
     private final View.OnClickListener btnConfList = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-
+            Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+            startActivity(intent);
         }
     };
 
