@@ -49,14 +49,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(createTableStr);
 
         createTableStr = "CREATE TABLE IF NOT EXISTS " + TABLE_OFFERS + " ( " +
-                KEY_ID + " INT PRIMARY KEY AUTOINCREMENT, "+
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 KEY_CLIENT + " TEXT NOT NULL, "+
-                " FOREIGN KEY ("+KEY_CLIENT+") REFERENCES "+TABLE_USERS+"("+KEY_LOGIN+"),"+
                 KEY_DRIVER + " TEXT NOT NULL, "+
-                " FOREIGN KEY ("+KEY_DRIVER+") REFERENCES "+TABLE_USERS+"("+KEY_LOGIN+"),"+
-                KEY_PRICE + " REAL NOT NULL"+
-                KEY_STARTED + " INTEGER NOT NULL"+
-                KEY_ENDED + " INTEGER NOT NULL"+
+                KEY_PRICE + " REAL NOT NULL, "+
+                KEY_STARTED + " INTEGER NOT NULL, "+
+                KEY_ENDED + " INTEGER NOT NULL, "+
                 KEY_PAID + " INTEGER NOT NULL)";
         db.execSQL(createTableStr);
     }

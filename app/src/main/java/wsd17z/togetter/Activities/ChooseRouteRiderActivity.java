@@ -33,9 +33,9 @@ public class ChooseRouteRiderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route_rider);
         PickupOffer test1 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 0.0, 2.0, 21.2,"lala@trala.com" );
+                new LatLng(0.222, 0.555), 15.0, 28.0, 21.2,"lala@trala.com" );
         PickupOffer test2 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 0.0, 2.0, 30.2,"lala@trala.com" );
+                new LatLng(0.222, 0.555), 20.0, 30.0, 35.0,"trilu@lilu.com" );
         list = findViewById(R.id.listViewCZ1);
         adapter = new PickupOfferAdapter(this, R.layout.pick_up_offer_adapter);
         adapter.addAll(test1, test2);
@@ -48,9 +48,9 @@ public class ChooseRouteRiderActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = list.getItemAtPosition(position);
-                PickupOffer puo = (PickupOffer) o;
-                Log.d("LISTA_OFERT", "Kliknales " +  o.toString());
+                Object obj = list.getItemAtPosition(position);
+                PickupOffer puo = (PickupOffer) obj;
+                Log.d("LISTA_OFERT", "Kliknales " +  obj.toString());
                 chosenOffer.setText(Long.toString(puo.getId()));
 
             }
