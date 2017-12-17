@@ -11,7 +11,7 @@ public class PickupOffer {
     private long mDbId;
     private Tuple2<LatLng, LatLng> mEndPoints;
     private double mStartEta, mEndEta, mTotalCost;
-    private String mClientEmail, mDriverEmail;
+    private String mClientEmail, mDriverEmail, mInstanceID;
 
     public PickupOffer(LatLng start, LatLng end, double startEta, double endEta, double totalCost, String email) {
         mEndPoints = new Tuple2<>(start, end);
@@ -28,6 +28,16 @@ public class PickupOffer {
         mTotalCost = totalCost;
         mClientEmail = email;
         mDriverEmail = driverEmail;
+    }
+
+    public PickupOffer(LatLng start, LatLng end, double startEta, double endEta, double totalCost, String email, String driverEmail, String driverInstanceID) {
+        mEndPoints = new Tuple2<>(start, end);
+        mStartEta = startEta;
+        mEndEta = endEta;
+        mTotalCost = totalCost;
+        mClientEmail = email;
+        mDriverEmail = driverEmail;
+        mInstanceID = driverInstanceID;
     }
 
     public PickupOffer(Tuple2<LatLng, LatLng> endpoints, double startEta, double endEta, double totalCost, String email) {
@@ -60,6 +70,10 @@ public class PickupOffer {
 
     public String getDriverEmail() {
         return mDriverEmail;
+    }
+
+    public String getDriverInstanceID() {
+        return mInstanceID;
     }
 
     public void setId(long id) {

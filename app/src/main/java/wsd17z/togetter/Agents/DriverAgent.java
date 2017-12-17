@@ -4,6 +4,7 @@ import android.util.ArraySet;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class DriverAgent implements IPickupService, IUserService
     private static final double DISTANCE_THRESHOLD = 10d;
     private Map<String, PickupOffer> mClients;
     private String mUserEmail;
+    private String mUserInstanceID;
 
     @AgentFeature
     private IRequiredServicesFeature requiredServicesFeature;
@@ -71,6 +73,7 @@ public class DriverAgent implements IPickupService, IUserService
         mMaxDelayMin = 0;
         mWaypoints = new ArraySet<>();
         mClients = new HashMap<>();
+        mUserInstanceID = FirebaseInstanceId.getInstance().getToken();
     }
 
     @Override
@@ -104,7 +107,7 @@ public class DriverAgent implements IPickupService, IUserService
         double pickupDist = 5d;
         double cost = pickupDist * mPricePerKm;
 
-        PickupOffer offer = new PickupOffer(start, end, 0, 0, cost, email, mUserEmail);
+        PickupOffer offer = new PickupOffer(start, end, 0, 0, cost, email, mUserEmail, mUserInstanceID);
         mClients.put(email, offer);
         return offer;
     }

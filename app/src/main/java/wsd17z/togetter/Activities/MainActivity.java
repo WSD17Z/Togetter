@@ -9,18 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import jadex.android.service.JadexPlatformBinder;
 import jadex.bridge.IComponentIdentifier;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.IResultListener;
 import wsd17z.togetter.Agents.DbManagementAgent;
+import wsd17z.togetter.PushMsg.FirebaseIDService;
 import wsd17z.togetter.MyJadexService;
 import wsd17z.togetter.R;
 
 public class MainActivity extends AppCompatActivity
 {
     private static JadexPlatformBinder JADEX_PLATFORM;
+    private static final String TAG = "REG_TOKEN";
 
     public static JadexPlatformBinder getPlatform() {
         return JADEX_PLATFORM;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity
         spinner.setIndeterminate(true);
 
         DbManagementAgent.initDb(getApplicationContext());
+        Log.d(TAG, FirebaseInstanceId.getInstance().getToken());
+
     }
 
     @Override
