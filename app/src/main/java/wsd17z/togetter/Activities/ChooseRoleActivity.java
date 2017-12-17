@@ -40,7 +40,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
         public void onClick(View v) {
 
            // Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
-            Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
+            Intent intent = new Intent(getBaseContext(), ClientSearchRouteActivity.class);
             Class agentClass = ClientAgent.class;
 
             if (v == driverBtn) {
