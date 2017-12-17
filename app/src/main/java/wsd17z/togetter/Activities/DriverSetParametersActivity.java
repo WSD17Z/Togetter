@@ -14,7 +14,8 @@ import wsd17z.togetter.R;
  * Created by user on 2017-12-16.
  */
 
-public class DriverSetParametersActivity extends AppCompatActivity {
+public class
+DriverSetParametersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,7 @@ public class DriverSetParametersActivity extends AppCompatActivity {
     private final View.OnClickListener btnConfList = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+            Intent intent = new Intent(getBaseContext(), ClientSearchRouteActivity.class);
             startActivity(intent);
         }
     };

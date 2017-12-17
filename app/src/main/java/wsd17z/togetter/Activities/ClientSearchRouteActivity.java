@@ -29,7 +29,7 @@ import java.util.List;
 import wsd17z.togetter.R;
 import wsd17z.togetter.MapsModules.*;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
+public class ClientSearchRouteActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
 
     private GoogleMap mMap;
     private Button btnFindPath;

@@ -41,7 +41,7 @@
         <activity android:name=".Activities.ChooseRouteRiderActivity"/>
         <activity android:name=".Activities.DriverSetParametersActivity"/>
         <activity android:name=".Activities.RiderWaitingActivity"/>
-        <activity android:name=".Activities.MapsActivity"/>
+        <activity android:name=".Activities.ClientSearchRouteActivity"/>
     </application>
 
 </manifest>

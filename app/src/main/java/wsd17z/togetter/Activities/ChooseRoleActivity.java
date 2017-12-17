@@ -39,6 +39,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
+           // Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
             Intent intent = new Intent(getBaseContext(), ChooseRouteRiderActivity.class);
             Class agentClass = ClientAgent.class;
 
