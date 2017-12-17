@@ -33,10 +33,14 @@ public class ChooseRouteRiderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route_rider);
         PickupOffer test1 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 15.0, 28.0, 21.2,"lala@trala.com" );
+                new LatLng(0.222, 0.555), 0.0, 2.0, 21.2, null ,
+                "marek.tr@test.com");
         PickupOffer test2 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 20.0, 30.0, 35.0,"trilu@lilu.com" );
+                new LatLng(0.222, 0.555), 0.0, 2.0, 30.2, null ,
+                "gosia.wkd@test.com");
         list = findViewById(R.id.listViewCZ1);
+        test1.setId(1);
+        test2.setId(2);
         adapter = new PickupOfferAdapter(this, R.layout.pick_up_offer_adapter);
         adapter.addAll(test1, test2);
         list.setAdapter(adapter);
@@ -48,10 +52,10 @@ public class ChooseRouteRiderActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object obj = list.getItemAtPosition(position);
-                PickupOffer puo = (PickupOffer) obj;
-                Log.d("LISTA_OFERT", "Kliknales " +  obj.toString());
-                chosenOffer.setText(Long.toString(puo.getId()));
+                Object object1 = list.getItemAtPosition(position);
+                PickupOffer puo = (PickupOffer) object1;
+                Log.d("LISTA_OFERT", "Kliknales " +  object1.toString());
+                chosenOffer.setText("OFFERT " + Long.toString(puo.getId()) + " FROM: " + puo.getDriverEmail());
 
             }
         });

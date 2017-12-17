@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Togetter.iml" filepath="$PROJECT_DIR$/Togetter.iml" />
+      <module fileurl="file://F:\STUDIA_MAG\SEMESTR 3\WSD\projekt\faza_implementacji\8\Togetter\Togetter.iml" filepath="F:\STUDIA_MAG\SEMESTR 3\WSD\projekt\faza_implementacji\8\Togetter\Togetter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://F:\STUDIA_MAG\SEMESTR 3\WSD\projekt\faza_implementacji\8\Togetter\app\app.iml" filepath="F:\STUDIA_MAG\SEMESTR 3\WSD\projekt\faza_implementacji\8\Togetter\app\app.iml" />
     </modules>
   </component>
 </project>
