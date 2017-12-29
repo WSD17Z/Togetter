@@ -1,4 +1,4 @@
-package com.example.kosmos.jadextest;
+package wsd17z.togetter;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.kosmos.jadextest", appContext.getPackageName());
+        assertEquals("wsd17z.togetter", appContext.getPackageName());
     }
 }

@@ -1,22 +1,25 @@
 package wsd17z.togetter.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
+import java.util.List;
+import java.util.Locale;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import jadex.commons.concurrent.TimeoutException;
+import jadex.commons.future.IFuture;
+import jadex.commons.future.IResultListener;
 import wsd17z.togetter.Adapters.PickupOfferAdapter;
+import wsd17z.togetter.Driver.IRideService;
 import wsd17z.togetter.Driver.PickupOffer;
 import wsd17z.togetter.R;
 
@@ -25,38 +28,141 @@ import wsd17z.togetter.R;
  */
 
 public class ChooseRouteRiderActivity extends AppCompatActivity {
-    private ListView list;
-    private PickupOfferAdapter adapter;
+    private ListView mList;
+    private PickupOfferAdapter mAdapter;
+    private ProgressDialog mDialog;
+    private PickupOffer mChosenOffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route_rider);
-        PickupOffer test1 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 0.0, 2.0, 21.2, null ,
-                "marek.tr@test.com");
-        PickupOffer test2 = new PickupOffer(new LatLng(0.123, 0.222),
-                new LatLng(0.222, 0.555), 0.0, 2.0, 30.2, null ,
-                "gosia.wkd@test.com");
-        list = findViewById(R.id.listViewCZ1);
-        test1.setId(1);
-        test2.setId(2);
-        adapter = new PickupOfferAdapter(this, R.layout.pick_up_offer_adapter);
-        adapter.addAll(test1, test2);
-        list.setAdapter(adapter);
+        mList = findViewById(R.id.listViewCZ1);
+        mAdapter = new PickupOfferAdapter(this, R.layout.pick_up_offer_adapter);
+        mDialog = ProgressDialog.show(this, "Please wait.",
+                "Searching for offers...", true);
+
+        IFuture<IRideService> clientFuture = MainActivity.getPlatform().getService(MainActivity.getPlatform().getPlatformId(), IRideService.class);
+        clientFuture.addResultListener(new IResultListener<IRideService>() {
+            @Override
+            public void exceptionOccurred(Exception exception) {
+                Log.d("ERR", exception.toString());
+            }
+
+            @Override
+            public void resultAvailable(IRideService rideSrc) {
+                final IFuture<Void> refresh = rideSrc.refreshDrivers();
+                try {
+                    refresh.get(10000);
+                } catch (TimeoutException ex) {
+                    Log.d("MKK", "ended beforetime");
+                }
+
+                List<PickupOffer> offers = rideSrc.queryForPickupOffers();
+                if (offers != null) {
+                    final List<PickupOffer> offersFinal = offers;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mAdapter.addAll(offersFinal);
+                                mList.setAdapter(mAdapter);
+                            } catch (Exception ex) {
+                                Log.d("ERR", ex.getMessage());
+                            }
+                        }
+                    });
+                }
+                mDialog.dismiss();
+                /*
+                refresh.addResultListener(new IResultListener<Void>() {
+                    @Override
+                    public void exceptionOccurred(Exception exception) {
+                        Log.d("ERR", exception.toString());
+                    }
+
+                    @Override
+                    public void resultAvailable(Void result) {
+                        final IFuture<List<PickupOffer>> offersFut = rideSrcFinal.queryForPickupOffers();
+                        List<PickupOffer> offers = offersFut.get();
+                        if (offers != null) {
+                            final List<PickupOffer> offersFinal = offers;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        mAdapter.addAll(offersFinal);
+                                        mList.setAdapter(mAdapter);
+                                    } catch (Exception ex) {
+                                        Log.d("ERR", ex.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                        mDialog.dismiss();
+                    }
+                });*/
+/*
+                final IFuture<List<PickupOffer>> offersFut = result.queryForPickupOffers();
+                offersFut.addResultListener(new IResultListener<List<PickupOffer>>() {
+                    @Override
+                    public void exceptionOccurred(Exception exception) {
+                        Log.d("ERR", exception.toString());
+                    }
+
+                    @Override
+                    public void resultAvailable(List<PickupOffer> offers) {
+                        if (offers != null) {
+                            final List<PickupOffer> offersFinal = offers;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        mAdapter.addAll(offersFinal);
+                                        mList.setAdapter(mAdapter);
+                                    } catch (Exception ex) {
+                                        Log.d("ERR", ex.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                        mDialog.dismiss();
+                    }
+                });
+*/
+            }
+        });
 
         Button buttonAcc = findViewById(R.id.buttonCZ4);
         final TextView chosenOffer = findViewById(R.id.textViewCZ8);
 
-        list.setOnItemClickListener(new OnItemClickListener() {
+        mList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object object1 = list.getItemAtPosition(position);
-                PickupOffer puo = (PickupOffer) object1;
-                Log.d("LISTA_OFERT", "Kliknales " +  object1.toString());
-                chosenOffer.setText("OFFERT " + Long.toString(puo.getId()) + " FROM: " + puo.getDriverEmail());
+                mChosenOffer = (PickupOffer) mList.getItemAtPosition(position);
+                //Log.d("LISTA_OFERT", "Kliknales " +  mChosenOffer.toString());
+                chosenOffer.setText(String.format(Locale.getDefault(),"OFFER %1$d FROM: %2$s", position + 1, mChosenOffer.getDriverEmail()));
+            }
+        });
 
+        buttonAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IFuture<IRideService> clientFuture = MainActivity.getPlatform().getService(MainActivity.getPlatform().getPlatformId(), IRideService.class);
+                clientFuture.addResultListener(new IResultListener<IRideService>() {
+                    @Override
+                    public void exceptionOccurred(Exception exception) {
+                        Log.d("ERR", exception.toString());
+                    }
+
+                    @Override
+                    public void resultAvailable(IRideService result) {
+                        result.chooseOffer(mChosenOffer);
+                        Intent intent = new Intent(getBaseContext(), RiderWaitingActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

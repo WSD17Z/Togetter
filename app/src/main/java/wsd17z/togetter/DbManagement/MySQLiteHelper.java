@@ -29,7 +29,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_CLIENT = "client";
     private static final String KEY_DRIVER = "driver";
-    private static final String KEY_PRICE = "client";
+    private static final String KEY_PRICE = "price";
     private static final String KEY_STARTED = "started";
     private static final String KEY_ENDED = "ended";
     private static final String KEY_PAID = "paid";

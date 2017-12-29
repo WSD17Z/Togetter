@@ -4,6 +4,7 @@ import java.util.List;
 
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.commons.future.IFuture;
 import wsd17z.togetter.Agents.ClientAgent;
 
 /**
@@ -23,6 +24,11 @@ public class RideService implements IRideService {
     @Override
     public void chooseOffer(PickupOffer offer) {
         agent.chooseOffer(offer);
+    }
+
+    @Override
+    public IFuture<Void> refreshDrivers() {
+        return agent.refreshDrivers();
     }
 
     @Override

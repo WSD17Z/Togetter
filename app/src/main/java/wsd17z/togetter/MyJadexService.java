@@ -18,6 +18,7 @@ public class MyJadexService extends JadexPlatformService {
         config.addComponent("wsd17z.togetter.Agents.ClientManagementAgent.class");
         config.addComponent("wsd17z.togetter.Agents.DbManagementAgent.class");
         config.addComponent("wsd17z.togetter.Agents.WalletAgent.class");
+        config.addComponent("wsd17z.togetter.Agents.DriverAgent.class");
         RootComponentConfiguration rootConfig = config.getRootConfig();
         rootConfig.setAwareness(true);
         rootConfig.setKernels(KERNEL_MICRO);

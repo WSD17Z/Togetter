@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">JadexTest</string>
+    <string name="app_name">Togetter</string>
+    <string name="setRoad_destination">Enter destination address</string>
+    <string name="setRoad_find">Find path</string>
+    <string name="setRoad_go">Go!</string>
+    <string name="setRoad_dist">0 km</string>
+    <string name="setRoad_time">0 min</string>
+    <string name="setParams_price">%1$.1f0 zl</string>
+    <string name="setParams_time">%1$d min</string>
 </resources>

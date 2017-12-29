@@ -1,4 +1,4 @@
-package com.example.kosmos.jadextest;
+package wsd17z.togetter;
 
 import org.junit.Test;
 

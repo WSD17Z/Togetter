@@ -16,6 +16,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -24,6 +26,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import wsd17z.togetter.R;
 import wsd17z.togetter.MapsModules.*;
@@ -34,7 +37,7 @@ public class ClientSearchRouteActivity extends FragmentActivity implements OnMap
     private Button btnFindPath;
     private EditText etOrigin;
     private EditText etDestination;
-    private List<Marker> originMarkers = new ArrayList<>();
+    private List<Marker> mMapMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
@@ -93,11 +96,7 @@ public class ClientSearchRouteActivity extends FragmentActivity implements OnMap
         }
         if (canAccessLocation()) {
             mMap.setMyLocationEnabled(true);
-
         }
-
-
-
     }
 
     private boolean canAccessLocation() {
@@ -112,55 +111,71 @@ public class ClientSearchRouteActivity extends FragmentActivity implements OnMap
         progressDialog = ProgressDialog.show(this, "Please wait.",
                 "Finding direction..!", true);
 
-        if (originMarkers != null) {
-            for (Marker marker : originMarkers) {
+        if (mMapMarkers != null) {
+            for (Marker marker : mMapMarkers) {
                 marker.remove();
             }
+            mMapMarkers.clear();
         }
 
         if (destinationMarkers != null) {
             for (Marker marker : destinationMarkers) {
                 marker.remove();
             }
+            destinationMarkers.clear();
         }
 
         if (polylinePaths != null) {
             for (Polyline polyline:polylinePaths ) {
                 polyline.remove();
             }
+            polylinePaths.clear();
         }
     }
 
     @Override
-    public void onDirectionFinderSuccess(List<Route> routes) {
+    public void onDirectionFinderSuccess(Route route) {
         progressDialog.dismiss();
-        polylinePaths = new ArrayList<>();
-        originMarkers = new ArrayList<>();
-        destinationMarkers = new ArrayList<>();
 
-        for (Route route : routes) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
-            ((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
+        ((TextView) findViewById(R.id.tvDuration)).setText(
+                String.format(Locale.getDefault(), "%1$d min", route.duration.value / 60)
+        );
+        ((TextView) findViewById(R.id.tvDistance)).setText(
+                String.format(Locale.getDefault(), "%1$.1f km", route.distance.value / 1000f)
+        );
 
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
+        mMapMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .title(route.startAddress)
+                        .position(route.startLocation)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                )
+        );
 
-                    .title(route.startAddress)
-                    .position(route.startLocation)));
-            destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-
-                    .title(route.endAddress)
-                    .position(route.endLocation)));
-
-            PolylineOptions polylineOptions = new PolylineOptions().
-                    geodesic(true).
-                    color(Color.BLUE).
-                    width(10);
-
-            for (int i = 0; i < route.points.size(); i++)
-                polylineOptions.add(route.points.get(i));
-
-            polylinePaths.add(mMap.addPolyline(polylineOptions));
+        for (int i = 0; i < route.legs.size() - 1; ++i) {
+            mMapMarkers.add(mMap.addMarker(new MarkerOptions()
+                            .title(route.legs.get(i).endAddress)
+                            .position(route.legs.get(i).endLocation)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                    )
+            );
         }
+
+        mMapMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .title(route.endAddress)
+                        .position(route.endLocation)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                )
+        );
+
+        PolylineOptions polylineOptions = new PolylineOptions().
+                geodesic(true).
+                color(Color.BLUE).
+                width(10);
+
+        for (LatLng point : route.points) {
+            polylineOptions.add(point);
+        }
+        polylinePaths.add(mMap.addPolyline(polylineOptions));
     }
 }

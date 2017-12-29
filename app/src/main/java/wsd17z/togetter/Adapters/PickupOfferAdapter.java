@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import wsd17z.togetter.Driver.PickupOffer;
 import wsd17z.togetter.R;
@@ -18,7 +19,7 @@ import wsd17z.togetter.R;
 
 public class PickupOfferAdapter extends ArrayAdapter<PickupOffer>{
 
-    public PickupOfferAdapter(Context context, int textViewResourceId) {
+    public  PickupOfferAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
@@ -40,18 +41,17 @@ public class PickupOfferAdapter extends ArrayAdapter<PickupOffer>{
         PickupOffer offer = getItem(position);
 
         if (offer != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.mDbIdView);
+            TextView driver = v.findViewById(R.id.offerDriver);
+            TextView eta = v.findViewById(R.id.offerEta);
+            TextView etd = v.findViewById(R.id.offerEtd);
+            TextView cost = v.findViewById(R.id.offerPrice);
+            TextView id = v.findViewById(R.id.offerId);
 
-
-
-            if (tt1 != null) {
-                tt1.setText("OFFERT " + Long.toString(offer.getId()) + " START TIME: " + Double.toString(offer.getStartEta()) +
-                        " ARRIVAL TIME: " + Double.toString(offer.getEndEta()) + " TOTAL COST: "
-                        + Double.toString(offer.getTotalCost()) + " DRIVER EMAIL: " + offer.getDriverEmail());
-
-            }
-
-
+            id.setText(String.format(Locale.getDefault(),"%1$d.", position + 1));
+            eta.setText(String.format(Locale.getDefault(),"ETA: %1$.0f min", offer.getStartEta()));
+            etd.setText(String.format(Locale.getDefault(),"ETD: %1$.0f min", offer.getEndEta()));
+            cost.setText(String.format(Locale.getDefault(),"Price: %1$.2f zl", offer.getTotalCost()));
+            driver.setText(String.format(Locale.getDefault(),"Driver: %1$s", offer.getDriverEmail()));
         }
 
         return v;

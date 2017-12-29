@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity
         spinner.setIndeterminate(true);
 
         DbManagementAgent.initDb(getApplicationContext());
-        Log.d(TAG, FirebaseInstanceId.getInstance().getToken());
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Token is = \'"+token+"\'");
 
     }
 

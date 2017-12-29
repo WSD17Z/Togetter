@@ -21,6 +21,11 @@ public class PickupService implements IPickupService {
     }
 
     @Override
+    public PickupOffer createPickupOffer(double s1,double s2,double e1,double e2,String email) {
+        return agent.createPickupOffer(s1,s2,e1,e2, email);
+    }
+
+    @Override
     public void realizePickup(String driverEmail, String email) {
         agent.realizePickup(driverEmail, email);
     }

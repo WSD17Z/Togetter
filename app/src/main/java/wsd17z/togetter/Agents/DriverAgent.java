@@ -6,8 +6,11 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import jadex.bridge.service.RequiredServiceInfo;
@@ -30,6 +33,9 @@ import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.PickupService;
 import wsd17z.togetter.Driver.PickupOffer;
+import wsd17z.togetter.MapsModules.DirectionFinder;
+import wsd17z.togetter.MapsModules.Route;
+import wsd17z.togetter.Utils;
 import wsd17z.togetter.Wallet.IWalletService;
 
 /**
@@ -39,22 +45,19 @@ import wsd17z.togetter.Wallet.IWalletService;
 @Agent
 @ProvidedServices({
         @ProvidedService(name="pickup", type=IPickupService.class, implementation = @Implementation(PickupService.class)),
-        @ProvidedService(name="user", type=IUserService.class, implementation = @Implementation(UserService.class), scope = RequiredServiceInfo.SCOPE_COMPONENT)
+        @ProvidedService(name="user", type=IUserService.class, implementation = @Implementation(UserService.class), scope = RequiredServiceInfo.SCOPE_NONE)
 })
 @RequiredServices({
         @RequiredService(name="wallet", type=IWalletService.class, binding=@Binding(scope= RequiredServiceInfo.SCOPE_GLOBAL)),
         @RequiredService(name="dbmanager", type=IDbManagementService.class, binding=@Binding(scope= RequiredServiceInfo.SCOPE_GLOBAL))
 })
 
-public class DriverAgent implements IPickupService, IUserService
+public class DriverAgent extends UserAgent implements IPickupService, IUserService
 {
-    private Tuple2<LatLng, LatLng> mEndPoints;
     private Set<LatLng> mWaypoints;
-    private float mPricePerKm;
-    private int mMaxDelayMin;
     private static final double DISTANCE_THRESHOLD = 10d;
+    private static final double SAME_DIST_THRESHOLD = 1e-4;
     private Map<String, PickupOffer> mClients;
-    private String mUserEmail;
     private String mUserInstanceID;
 
     @AgentFeature
@@ -69,25 +72,26 @@ public class DriverAgent implements IPickupService, IUserService
     }
 
     public DriverAgent() {
-        mPricePerKm = 0;
-        mMaxDelayMin = 0;
+        mSuperAgentClass = this.getClass();
+        Random rnd = new Random();
+        mPricePerKm = rnd.nextInt(1000) / 100f;
+        mMaxDelayMin = 30;
         mWaypoints = new ArraySet<>();
         mClients = new HashMap<>();
+        mEndPoints = new Tuple2<>(
+                new LatLng(getRandomLat(rnd), getRandomLng(rnd)),
+                new LatLng(getRandomLat(rnd), getRandomLng(rnd))
+        );
         mUserInstanceID = FirebaseInstanceId.getInstance().getToken();
+        mUserEmail = "randomDriver" + String.valueOf(rnd.nextInt(1000)) + "@rnd" + String.valueOf(rnd.nextInt(1000)) + ".com";
     }
 
-    @Override
-    public void setEndPoints(LatLng start, LatLng end) {
-        mEndPoints = new Tuple2<>(start, end);
+    private double getRandomLat(Random rnd) {
+        return (52128266 + rnd.nextInt(46947)) / 1000000d;
     }
 
-    @Override
-    public void setEmail(String email) {
-        if (mUserEmail == null) {
-            mUserEmail = email;
-        } else {
-            Log.d("SECURITY WARNING", "Trying to reset users login!");
-        }
+    private double getRandomLng(Random rnd) {
+        return (21017841 + rnd.nextInt(61138)) / 1000000d;
     }
 
     /*
@@ -95,21 +99,89 @@ public class DriverAgent implements IPickupService, IUserService
         Also users login along with offer are added to the drivers map.
      */
     @Override
+    public PickupOffer createPickupOffer(double s1,double s2,double e1,double e2,String email) {
+        return createPickupOffer(new LatLng(s1, s2), new LatLng(e1, e2), email);
+    }
+
+    @Override
     public PickupOffer createPickupOffer(LatLng start, LatLng end, String email) {
         if (getDistance(start, end) > DISTANCE_THRESHOLD) {
             return null;
         }
-        //TODO: get from gmap distance & eta's
-        int pickupDelay = 123;
+
+        // build waypoints list
+        List<String> wps = new ArrayList<String>();
+        for (LatLng loc : mWaypoints) {
+            wps.add(Utils.latLngToString(loc));
+        }
+
+        // get old route info
+        DirectionFinder directionFinderOld = new DirectionFinder(null, Utils.latLngToString(mEndPoints.getFirstEntity()),
+                Utils.latLngToString(mEndPoints.getSecondEntity()), wps);
+        Route routeOld = directionFinderOld.executeOnThread();
+
+        // add offers points and get new route info
+        wps.add(Utils.latLngToString(start));
+        wps.add(Utils.latLngToString(end));
+        DirectionFinder directionFinderNew = new DirectionFinder(null, Utils.latLngToString(mEndPoints.getFirstEntity()),
+                Utils.latLngToString(mEndPoints.getSecondEntity()), wps);
+        Route routeNew = directionFinderNew.executeOnThread();
+
+        if (routeOld.endLocation == null || routeNew.endLocation == null) {
+            return null;
+        }
+
+        // if routes were found, extract informations
+        int pickupDelay = 0;
+        double pickupDistance = 0d;
+        if (routeOld != null && routeNew != null) {
+            pickupDelay = (routeNew.duration.value - routeOld.duration.value) / 60;
+            pickupDistance = (routeNew.distance.value - routeOld.distance.value) / 1000f;
+        }
+
+        if (pickupDelay < 0 || pickupDistance < 0) {
+            return null;
+        }
+
+        // check delay
         if (pickupDelay > mMaxDelayMin) {
             return null;
         }
-        double pickupDist = 5d;
-        double cost = pickupDist * mPricePerKm;
 
-        PickupOffer offer = new PickupOffer(start, end, 0, 0, cost, email, mUserEmail, mUserInstanceID);
+        // calculate cost
+        double cost = pickupDistance * mPricePerKm;
+
+        int startEta = 0;
+        boolean startFound = false;
+        int endEta = 0;
+        if (routeNew != null && routeNew.legs != null) {
+            for (Route subRoute : routeNew.legs) {
+                if (!startFound) {
+                    startEta += subRoute.duration.value;
+                }
+                if (!startFound && sameLocation(subRoute.endLocation,start)) {
+                    startFound = true;
+                }
+
+                endEta += subRoute.duration.value;
+                if (sameLocation(subRoute.endLocation,end)) {
+                    break;
+                }
+            }
+        }
+
+        startEta /= 60;
+        endEta /= 60;
+
+        // build and return offer
+        PickupOffer offer = new PickupOffer(start, end, startEta, endEta, cost, email, mUserEmail, mUserInstanceID);
         mClients.put(email, offer);
         return offer;
+    }
+
+    private boolean sameLocation(LatLng start, LatLng end) {
+        double dist = getDistance(start,end);
+        return dist < SAME_DIST_THRESHOLD;
     }
 
     private double getDistance(LatLng start, LatLng end) {
@@ -123,7 +195,7 @@ public class DriverAgent implements IPickupService, IUserService
      */
     @Override
     public void realizePickup(String driverEmail, String email) {
-        if (driverEmail != mUserEmail) {
+        if (!driverEmail.equals(mUserEmail)) {
             return;
         }
         if (mClients.containsKey(email)) {

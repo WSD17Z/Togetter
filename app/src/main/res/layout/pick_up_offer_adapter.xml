@@ -3,54 +3,63 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <!--
-    private long mDbId;
-    private Tuple2<LatLng, LatLng> mEndPoints;
-    private double mStartEta, mEndEta, mTotalCost;
-    private String mClientEmail, mDriverEmail;
-    -->
-    <TextView
-        android:id="@+id/mDbIdView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal"
+        android:background="@drawable/border"
+        >
 
-    <!--<TextView-->
-        <!--android:id="@+id/mEndPointsView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+        <TextView
+            android:id="@+id/offerId"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="28dp"
+            android:text="1." />
 
-    <!--<TextView-->
-        <!--android:id="@+id/mStartEtaView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <!--<TextView-->
-        <!--android:id="@+id/mEndEtaView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+            <TextView
+                android:id="@+id/offerEtd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ETD: 20 min" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/mTotalCostView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+            <TextView
+                android:id="@+id/offerEta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ETA: 50 min" />
+        </LinearLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/mClientEmailView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <!--<TextView-->
-        <!--android:id="@+id/mDriverEmailView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="TextView" />-->
+            <TextView
+                android:id="@+id/offerDriver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Driver: aga@tele.com.pl" />
 
+            <TextView
+                android:id="@+id/offerPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Price: 12.60 zl" />
+        </LinearLayout>
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

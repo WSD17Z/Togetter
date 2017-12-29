@@ -10,13 +10,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etOrigin"
-        android:hint="Enter origin address" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter destination address"
+        android:hint="@string/setRoad_destination"
         android:id="@+id/etDestination" />
 
     <LinearLayout
@@ -27,34 +21,43 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find path"
+            android:text="@string/setRoad_find"
             android:id="@+id/btnFindPath" />
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_distance"/>
+
         <TextView
-            android:layout_marginLeft="5dp"
+            android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 km"
-            android:id="@+id/tvDistance" />
+            android:layout_marginStart="5dp"
+            android:text="@string/setRoad_dist" />
 
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/ic_clock"/>
         <TextView
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 min"
+            android:text="@string/setRoad_time"
             android:id="@+id/tvDuration" />
+
+        <Button
+            android:layout_marginStart="10dp"
+            android:enabled="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setRoad_go"
+            android:id="@+id/btnGo" />
     </LinearLayout>
 
 
