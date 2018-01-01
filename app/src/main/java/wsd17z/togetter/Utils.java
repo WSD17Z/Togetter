@@ -5,6 +5,10 @@ import android.content.pm.PackageManager;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 /**
@@ -15,6 +19,14 @@ public class Utils {
 
     public static String latLngToString(LatLng location) {
         return location.latitude + "," + location.longitude;
+    }
+
+    public static List<String> latLngToString(Set<LatLng> locations) {
+        List<String> resList = new ArrayList<>();
+        for (LatLng loc : locations) {
+            resList.add(loc.latitude + "," + loc.longitude);
+        }
+        return resList;
     }
 
     public static boolean canAccessLocation(Context ctx) {

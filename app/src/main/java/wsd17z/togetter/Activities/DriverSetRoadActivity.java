@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jadex.commons.future.IFuture;
+import jadex.commons.future.IResultListener;
+import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.MapsModules.DirectionFinder;
 import wsd17z.togetter.MapsModules.DirectionFinderListener;
 import wsd17z.togetter.MapsModules.GMapsLauncher;
@@ -52,6 +55,7 @@ public class DriverSetRoadActivity extends FragmentActivity implements OnMapRead
     private ProgressDialog mProgressDialog;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LatLng mCurrentLocation;
+    private LatLng mDestinationLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +84,23 @@ public class DriverSetRoadActivity extends FragmentActivity implements OnMapRead
         mGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String destination = mDestinationText.getText().toString();
-                startActivity(GMapsLauncher.getNavigationIntent(Utils.latLngToString(mCurrentLocation), destination));
+                final String destination = mDestinationText.getText().toString();
+
+                IFuture<IUserService> userFuture = MainActivity.getPlatform().getService(MainActivity.getPlatform().getPlatformId(), IUserService.class);
+                userFuture.addResultListener(new IResultListener<IUserService>() {
+                    @Override
+                    public void exceptionOccurred(Exception exception) {
+                        Log.d("ERR", exception.toString());
+                    }
+
+                    @Override
+                    public void resultAvailable(IUserService result) {
+                        result.setEndPoints(mCurrentLocation.latitude, mCurrentLocation.longitude,
+                                mDestinationLocation.latitude, mDestinationLocation.longitude);
+                        startActivity(GMapsLauncher.getNavigationIntent(Utils.latLngToString(mCurrentLocation), destination));
+                    }
+                });
+
             }
         });
 
@@ -214,7 +233,7 @@ public class DriverSetRoadActivity extends FragmentActivity implements OnMapRead
             polylineOptions.add(point);
         }
         mPolylinePaths.add(mMap.addPolyline(polylineOptions));
-
+        mDestinationLocation = route.endLocation;
         mGoBtn.setEnabled(true);
     }
 }

@@ -17,9 +17,11 @@ import jadex.bridge.IExternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.IResultListener;
 import wsd17z.togetter.Agents.DbManagementAgent;
+import wsd17z.togetter.MapsModules.GMapsLauncher;
 import wsd17z.togetter.PushMsg.FirebaseIDService;
 import wsd17z.togetter.MyJadexService;
 import wsd17z.togetter.R;
+import wsd17z.togetter.Utils;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -46,9 +48,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
-        Intent serviceIntent = new Intent(this, MyJadexService.class);
-        startService(serviceIntent);
-        bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        if (getPlatform() == null || !getPlatform().isBinderAlive()) {
+            Intent serviceIntent = new Intent(this, MyJadexService.class);
+            startService(serviceIntent);
+            bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        }
     }
 
     @Override

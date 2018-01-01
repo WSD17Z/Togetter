@@ -1,5 +1,6 @@
 package wsd17z.togetter.Agents;
 
+import android.content.Intent;
 import android.util.ArraySet;
 import android.util.Log;
 
@@ -34,6 +35,7 @@ import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.PickupService;
 import wsd17z.togetter.Driver.PickupOffer;
 import wsd17z.togetter.MapsModules.DirectionFinder;
+import wsd17z.togetter.MapsModules.GMapsLauncher;
 import wsd17z.togetter.MapsModules.Route;
 import wsd17z.togetter.Utils;
 import wsd17z.togetter.Wallet.IWalletService;
@@ -45,7 +47,7 @@ import wsd17z.togetter.Wallet.IWalletService;
 @Agent
 @ProvidedServices({
         @ProvidedService(name="pickup", type=IPickupService.class, implementation = @Implementation(PickupService.class)),
-        @ProvidedService(name="user", type=IUserService.class, implementation = @Implementation(UserService.class), scope = RequiredServiceInfo.SCOPE_NONE)
+        @ProvidedService(name="user", type=IUserService.class, implementation = @Implementation(UserService.class), scope = RequiredServiceInfo.SCOPE_GLOBAL)
 })
 @RequiredServices({
         @RequiredService(name="wallet", type=IWalletService.class, binding=@Binding(scope= RequiredServiceInfo.SCOPE_GLOBAL)),
@@ -194,25 +196,35 @@ public class DriverAgent extends UserAgent implements IPickupService, IUserServi
         Id of the element in db will be added to offer in the map.
      */
     @Override
-    public void realizePickup(String driverEmail, String email) {
+    public Intent realizePickup(String driverEmail, String email) {
         if (!driverEmail.equals(mUserEmail)) {
-            return;
+            return null;
         }
         if (mClients.containsKey(email)) {
             PickupOffer offer = mClients.get(email);
-            DbOfferObject dbOffer = new DbOfferObject(offer, email);
+            DbOfferObject dbOffer = new DbOfferObject(offer, mUserEmail);
+
+            // Change addPickupOffer, so it takes all fields of dbOffer, because
+            // if argument is not a POD type, it gets cleared/nullified (dunno why)
             long id = dbManagementService.addPickupOffer(dbOffer);
 
             if (id >= 0) {
                 offer.setId(id);
                 mClients.put(email, offer);
 
-                mWaypoints.add(offer.getEndPoints().getFirstEntity());
-                mWaypoints.add(offer.getEndPoints().getSecondEntity());
+                //mWaypoints.add(offer.getEndPoints().getFirstEntity());
+                //mWaypoints.add(offer.getEndPoints().getSecondEntity());
             }
-        }
-        //TODO: relay start, end & waypoints to the navigation
 
+            mWaypoints.add(offer.getEndPoints().getFirstEntity());
+            mWaypoints.add(offer.getEndPoints().getSecondEntity());
+
+            return GMapsLauncher.getNavigationIntent(
+                    Utils.latLngToString(mEndPoints.getFirstEntity()),
+                    Utils.latLngToString(mEndPoints.getSecondEntity()),
+                    Utils.latLngToString(mWaypoints));
+        }
+        return null;
     }
 
     /*
@@ -229,6 +241,8 @@ public class DriverAgent extends UserAgent implements IPickupService, IUserServi
             dbOffer.setStarted(true);
             dbManagementService.updatePickupOffer(offer.getId(), dbOffer);
             dbManagementService.deleteUnstartedPickups(email);
+            // First waypoint reached, go further
+            mWaypoints.remove(offer.getEndPoints().getFirstEntity());
         }
 
         //TODO: go back to navigation

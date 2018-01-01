@@ -1,5 +1,7 @@
 package wsd17z.togetter.Driver;
 
+import android.content.Intent;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import jadex.bridge.service.annotation.Service;
@@ -26,8 +28,8 @@ public class PickupService implements IPickupService {
     }
 
     @Override
-    public void realizePickup(String driverEmail, String email) {
-        agent.realizePickup(driverEmail, email);
+    public Intent realizePickup(String driverEmail, String email) {
+        return agent.realizePickup(driverEmail, email);
     }
 
     @Override

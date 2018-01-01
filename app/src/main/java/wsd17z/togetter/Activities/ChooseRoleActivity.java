@@ -131,6 +131,10 @@ public class ChooseRoleActivity extends AppCompatActivity {
                                         });
                                     }
                                 });
+                            } else {
+                                mDialog.dismiss();
+                                finalIntent.putExtra("Login", mLogin);
+                                startActivity(finalIntent);
                             }
                         }
                     });

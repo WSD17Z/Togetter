@@ -34,8 +34,7 @@ public class DbManagementAgent implements IDbManagementService
         return IFuture.DONE;
     }
 
-    public static void initDb(Context ctx)
-    {
+    public static void initDb(Context ctx) {
         mDb = new MySQLiteHelper(ctx);
         if (mDb.getAllUsers().size() == 0) {
             try {
@@ -50,8 +49,7 @@ public class DbManagementAgent implements IDbManagementService
     }
 
     @Override
-    public DbUserObject getUser(String email)
-    {
+    public DbUserObject getUser(String email) {
         if (mDb != null) {
             return mDb.getUser(email);
         }
@@ -60,32 +58,28 @@ public class DbManagementAgent implements IDbManagementService
     }
 
     @Override
-    public void addUser(DbUserObject userObject)
-    {
+    public void addUser(DbUserObject userObject) {
         if (mDb != null) {
             mDb.addUser(userObject);
         }
     }
 
     @Override
-    public void deleteUser(DbUserObject userObject)
-    {
+    public void deleteUser(DbUserObject userObject) {
         if (mDb != null) {
             mDb.deleteUser(userObject);
         }
     }
 
     @Override
-    public void updateUser(DbUserObject userObject)
-    {
+    public void updateUser(DbUserObject userObject) {
         if (mDb != null) {
             mDb.updateUser(userObject);
         }
     }
 
     @Override
-    public DbOfferObject getPickupOffer(long id)
-    {
+    public DbOfferObject getPickupOffer(long id) {
         if (mDb != null) {
             return mDb.getOffer(id);
         }

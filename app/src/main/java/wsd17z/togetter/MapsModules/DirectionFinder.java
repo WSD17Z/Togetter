@@ -44,15 +44,18 @@ public class DirectionFinder {
         String urlOrigin = URLEncoder.encode(origin, "utf-8");
         String urlDestination = URLEncoder.encode(destination, "utf-8");
         String urlWaypoints = "";
-        for (String wp : waypoints) {
-            urlWaypoints += URLEncoder.encode(wp, "utf-8") + "|";
-        }
-        if (urlWaypoints.endsWith("|")) {
-            urlWaypoints = urlWaypoints.substring(0, urlWaypoints.length() - 2);
+        if (waypoints != null) {
+            for (String wp : waypoints) {
+                urlWaypoints += URLEncoder.encode(wp, "utf-8") + "|";
+            }
+            if (urlWaypoints.endsWith("|")) {
+                urlWaypoints = urlWaypoints.substring(0, urlWaypoints.length() - 2);
+            }
+            urlWaypoints = (waypoints.isEmpty() ? "" : "&waypoints=" + urlWaypoints);
         }
         return DIRECTION_URL_API + "origin=" + urlOrigin
                 + "&destination=" + urlDestination
-                + (waypoints.isEmpty() ? "" : "&waypoints=" + urlWaypoints)
+                + urlWaypoints
                 + "&key=" + GOOGLE_API_KEY;
     }
 
