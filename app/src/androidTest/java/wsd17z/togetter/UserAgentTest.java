@@ -1,7 +1,5 @@
 package wsd17z.togetter;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -11,7 +9,8 @@ import org.junit.runner.RunWith;
 
 import wsd17z.togetter.Agents.UserAgent;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumented test, which will execute on an Android device.

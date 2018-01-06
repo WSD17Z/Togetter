@@ -4,13 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-
-import wsd17z.togetter.Utils;
 
 /**
  * Created by Kosmos on 27/12/2017.

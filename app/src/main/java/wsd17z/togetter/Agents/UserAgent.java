@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import org.junit.runners.JUnit4;
-
 import jadex.commons.Tuple2;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.Implementation;

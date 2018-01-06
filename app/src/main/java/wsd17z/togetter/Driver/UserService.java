@@ -4,7 +4,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
-import wsd17z.togetter.Agents.DriverAgent;
 import wsd17z.togetter.Agents.UserAgent;
 
 /**

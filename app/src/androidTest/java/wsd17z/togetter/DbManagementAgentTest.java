@@ -6,21 +6,15 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
-
-import wsd17z.togetter.Agents.ClientAgent;
 import wsd17z.togetter.Agents.DbManagementAgent;
 import wsd17z.togetter.DbManagement.DbOfferObject;
 import wsd17z.togetter.DbManagement.DbUserObject;
-import wsd17z.togetter.Driver.PickupOffer;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static wsd17z.togetter.TestUtils.CLIENT_EMAIL;
 import static wsd17z.togetter.TestUtils.DRIVER_EMAIL;
-import static wsd17z.togetter.TestUtils.createTestClientAgent;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

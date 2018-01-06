@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import jadex.bridge.IComponentIdentifier;
 import jadex.commons.future.IFuture;
 import jadex.commons.future.IResultListener;

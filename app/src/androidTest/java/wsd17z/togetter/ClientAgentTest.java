@@ -2,26 +2,20 @@ package wsd17z.togetter;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import wsd17z.togetter.Agents.ClientAgent;
-import wsd17z.togetter.Agents.DriverAgent;
-import wsd17z.togetter.Agents.UserAgent;
-import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.PickupOffer;
-import wsd17z.togetter.Driver.PickupService;
 
 import static org.junit.Assert.assertEquals;
-import static wsd17z.togetter.TestUtils.*;
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static wsd17z.togetter.TestUtils.CLIENT_EMAIL;
+import static wsd17z.togetter.TestUtils.DRIVER_EMAIL;
+import static wsd17z.togetter.TestUtils.createTestClientAgent;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

@@ -11,11 +11,15 @@ import org.junit.runner.RunWith;
 import wsd17z.togetter.Agents.DriverAgent;
 import wsd17z.togetter.Driver.PickupOffer;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static wsd17z.togetter.TestUtils.*;
+import static wsd17z.togetter.TestUtils.CLIENT_EMAIL;
+import static wsd17z.togetter.TestUtils.DRIVER_EMAIL;
+import static wsd17z.togetter.TestUtils.WAYPOINT_END;
+import static wsd17z.togetter.TestUtils.WAYPOINT_START;
+import static wsd17z.togetter.TestUtils.createTestDriverAgent;
 
 // TODO: Add database checks to the tests
 @RunWith(AndroidJUnit4.class)

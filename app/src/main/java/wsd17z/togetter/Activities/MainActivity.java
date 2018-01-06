@@ -12,16 +12,12 @@ import android.widget.ProgressBar;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import jadex.android.service.JadexPlatformBinder;
-import jadex.bridge.IComponentIdentifier;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.IResultListener;
 import wsd17z.togetter.Agents.DbManagementAgent;
-import wsd17z.togetter.MapsModules.GMapsLauncher;
-import wsd17z.togetter.PushMsg.FirebaseIDService;
 import wsd17z.togetter.MyJadexService;
 import wsd17z.togetter.R;
-import wsd17z.togetter.Utils;
 
 public class MainActivity extends AppCompatActivity
 {

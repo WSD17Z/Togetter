@@ -1,7 +1,6 @@
 package wsd17z.togetter.Agents;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import jadex.commons.future.IFuture;
@@ -10,11 +9,11 @@ import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
+import wsd17z.togetter.DbManagement.DbManagementService;
 import wsd17z.togetter.DbManagement.DbOfferObject;
 import wsd17z.togetter.DbManagement.DbUserObject;
-import wsd17z.togetter.DbManagement.MySQLiteHelper;
-import wsd17z.togetter.DbManagement.DbManagementService;
 import wsd17z.togetter.DbManagement.IDbManagementService;
+import wsd17z.togetter.DbManagement.MySQLiteHelper;
 
 /**
  * Created by Kosmos on 05/12/2017.

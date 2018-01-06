@@ -1,6 +1,7 @@
 package wsd17z.togetter.Driver;
 
 import com.google.android.gms.maps.model.LatLng;
+
 import jadex.commons.Tuple2;
 
 /**

@@ -1,31 +1,14 @@
 package wsd17z.togetter.Agents;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import jadex.bridge.IComponentIdentifier;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IExternalAccess;
-import jadex.bridge.InternalAccessAdapter;
-import jadex.bridge.TimeoutIntermediateResultListener;
-import jadex.bridge.modelinfo.ComponentInstanceInfo;
-import jadex.bridge.modelinfo.IModelInfo;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.component.IRequiredServicesFeature;
-import jadex.bridge.service.types.monitoring.IMonitoringEvent;
-import jadex.bridge.service.types.monitoring.IMonitoringService;
-import jadex.commons.IFilter;
-import jadex.commons.Tuple2;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.commons.future.IIntermediateFuture;
-import jadex.commons.future.IResultListener;
-import jadex.commons.future.ISubscriptionIntermediateFuture;
 import jadex.commons.future.IntermediateDefaultResultListener;
-import jadex.kernelbase.ExternalAccess;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentFeature;
@@ -35,9 +18,9 @@ import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.micro.annotation.RequiredService;
 import jadex.micro.annotation.RequiredServices;
+import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.IRideService;
 import wsd17z.togetter.Driver.IUserService;
-import wsd17z.togetter.Driver.IPickupService;
 import wsd17z.togetter.Driver.PickupOffer;
 import wsd17z.togetter.Driver.RideService;
 import wsd17z.togetter.Driver.UserService;

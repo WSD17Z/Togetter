@@ -2,7 +2,6 @@ package wsd17z.togetter.Agents;
 
 import android.content.Intent;
 import android.util.ArraySet;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -26,14 +25,13 @@ import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.micro.annotation.RequiredService;
 import jadex.micro.annotation.RequiredServices;
-
 import wsd17z.togetter.DbManagement.DbOfferObject;
 import wsd17z.togetter.DbManagement.IDbManagementService;
-import wsd17z.togetter.Driver.UserService;
-import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.Driver.IPickupService;
-import wsd17z.togetter.Driver.PickupService;
+import wsd17z.togetter.Driver.IUserService;
 import wsd17z.togetter.Driver.PickupOffer;
+import wsd17z.togetter.Driver.PickupService;
+import wsd17z.togetter.Driver.UserService;
 import wsd17z.togetter.MapsModules.DirectionFinder;
 import wsd17z.togetter.MapsModules.GMapsLauncher;
 import wsd17z.togetter.MapsModules.Route;

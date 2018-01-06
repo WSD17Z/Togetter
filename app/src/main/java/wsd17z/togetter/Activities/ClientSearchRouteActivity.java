@@ -28,8 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import wsd17z.togetter.MapsModules.DirectionFinder;
+import wsd17z.togetter.MapsModules.DirectionFinderListener;
+import wsd17z.togetter.MapsModules.Route;
 import wsd17z.togetter.R;
-import wsd17z.togetter.MapsModules.*;
 
 public class ClientSearchRouteActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
 

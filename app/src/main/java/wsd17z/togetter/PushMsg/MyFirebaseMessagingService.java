@@ -3,18 +3,13 @@ package wsd17z.togetter.PushMsg;
 import android.content.Intent;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Map;
-
 import jadex.commons.future.IFuture;
 import jadex.commons.future.IResultListener;
-import wsd17z.togetter.Activities.DriverSetRoadActivity;
 import wsd17z.togetter.Activities.MainActivity;
 import wsd17z.togetter.Driver.IPickupService;
-import wsd17z.togetter.Driver.IUserService;
 
 /**
  * Created by Agnieszka on 2017-12-16.

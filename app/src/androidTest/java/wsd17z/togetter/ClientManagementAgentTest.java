@@ -1,21 +1,14 @@
 package wsd17z.togetter;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import wsd17z.togetter.Agents.ClientManagementAgent;
-import wsd17z.togetter.Agents.DbManagementAgent;
-import wsd17z.togetter.DbManagement.DbOfferObject;
-import wsd17z.togetter.DbManagement.DbUserObject;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static wsd17z.togetter.TestUtils.CLIENT_EMAIL;
-import static wsd17z.togetter.TestUtils.DRIVER_EMAIL;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
