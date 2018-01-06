@@ -11,13 +11,13 @@ public class DbUserObject {
     private String mSurname;
     private double mBalance;
 
-    public DbUserObject(String name, String surname, String email, int passHash) {
+    public DbUserObject(String name, String surname, String email, int passHash, double balance) {
         super();
         mEmail = email;
         mPassHash = passHash;
         mName = name;
         mSurname = surname;
-        mBalance = 0;
+        mBalance = balance;
     }
 
     public DbUserObject(String email, int passHash) {

@@ -35,12 +35,13 @@ public class DbManagementAgent implements IDbManagementService
 
     public static void initDb(Context ctx) {
         mDb = new MySQLiteHelper(ctx);
+
         if (mDb.getAllUsers().size() == 0) {
             try {
-                mDb.addUser(new DbUserObject("michal", "Michaller", "mkk@test.com", "pass123$%".hashCode()));
-                mDb.addUser(new DbUserObject("kuba", "Chicago", "kuba@test.com", "pass123$%".hashCode()));
-                mDb.addUser(new DbUserObject("ania", "Drawers", "ania@test.com", "pass123$%".hashCode()));
-                mDb.addUser(new DbUserObject("brunhilda", "Giggity", "brudzia@test.com", "pass123$%".hashCode()));
+                mDb.addUser(new DbUserObject("michal", "Michaller", "mkk@test.com", "pass123$%".hashCode(), 0d));
+                mDb.addUser(new DbUserObject("kuba", "Chicago", "kuba@test.com", "pass123$%".hashCode(), 0d));
+                mDb.addUser(new DbUserObject("ania", "Drawers", "ania@test.com", "pass123$%".hashCode(), 0d));
+                mDb.addUser(new DbUserObject("brunhilda", "Giggity", "brudzia@test.com", "pass123$%".hashCode(), 0d));
             } catch (Exception ex) {
                 Log.d("DB DATA", "Database already initialized with debug data.");
             }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "TogetterDB";
     // USERS
     private static final String TABLE_USERS = "users";
@@ -23,7 +23,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_SURNAME = "surname";
     private static final String KEY_LOGIN = "login";
     private static final String KEY_PASS = "pass";
-    private static final String[] USERS_COLUMNS = { KEY_NAME, KEY_SURNAME, KEY_LOGIN, KEY_PASS };
+    private static final String KEY_BALANCE = "balance";
+    private static final String[] USERS_COLUMNS = { KEY_NAME, KEY_SURNAME, KEY_LOGIN, KEY_PASS, KEY_BALANCE };
     // OFFERS
     private static final String TABLE_OFFERS = "offers";
     private static final String KEY_ID = "id";
@@ -45,7 +46,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 KEY_NAME + " TEXT, "+
                 KEY_SURNAME + " TEXT, "+
                 KEY_LOGIN + " TEXT PRIMARY KEY NOT NULL, "+
-                KEY_PASS + " INTEGER NOT NULL)";
+                KEY_PASS + " INTEGER NOT NULL, "+
+                KEY_BALANCE + " REAL)";
         db.execSQL(createTableStr);
 
         createTableStr = "CREATE TABLE IF NOT EXISTS " + TABLE_OFFERS + " ( " +
@@ -78,6 +80,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_SURNAME, obj.getSurname());
         values.put(KEY_LOGIN, obj.getEmail());
         values.put(KEY_PASS, obj.getPassHash());
+        values.put(KEY_BALANCE, obj.getBalance());
 
         db.insert(TABLE_USERS,
                 null,
@@ -109,7 +112,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     cursor.getString(0),
                     cursor.getString(1),
                     cursor.getString(2),
-                    Integer.parseInt(cursor.getString(3))
+                    Integer.parseInt(cursor.getString(3)),
+                    cursor.getDouble(4)
             );
         }
     }
@@ -129,7 +133,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         cursor.getString(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        Integer.parseInt(cursor.getString(3))
+                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getDouble(4)
                     )
                 );
             } while (cursor.moveToNext());
@@ -148,6 +153,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_SURNAME, obj.getSurname());
         values.put(KEY_LOGIN, obj.getEmail());
         values.put(KEY_PASS, obj.getPassHash());
+        values.put(KEY_BALANCE, obj.getBalance());
+
 
         int i = db.update(TABLE_USERS,
                 values,

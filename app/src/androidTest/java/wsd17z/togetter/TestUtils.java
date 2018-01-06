@@ -33,6 +33,25 @@ public class TestUtils {
     // Kazury 2
     public static final LatLng WAYPOINT_END = new LatLng(52.1388705, 21.0456728);
 
+    public static WalletAgent createTestWalletAgent() {
+        DbManagementAgent.initDb(InstrumentationRegistry.getTargetContext());
+        DbManagementService dbs = new DbManagementService(new DbManagementAgent());
+        try {
+            DbUserObject usr = new DbUserObject(CLIENT_EMAIL, CLIENT_EMAIL.hashCode());
+            dbs.addUser(usr);
+        } catch (Exception ex) {}
+
+        try {
+            DbUserObject usr = new DbUserObject(DRIVER_EMAIL, DRIVER_EMAIL.hashCode());
+            dbs.addUser(usr);
+        } catch (Exception ex) {}
+
+        return createTestWalletAgent(dbs);
+    }
+
+    public static WalletAgent createTestWalletAgent(DbManagementService dbsrv) {
+        return new WalletAgent(dbsrv);
+    }
 
     public static DriverAgent createTestDriverAgent() {
         DbManagementAgent.initDb(InstrumentationRegistry.getTargetContext());
@@ -47,7 +66,7 @@ public class TestUtils {
             dbs.addUser(usr);
         } catch (Exception ex) {}
 
-        WalletService ws = new WalletService(new WalletAgent(dbs));
+        WalletService ws = new WalletService(createTestWalletAgent(dbs));
         DriverAgent da = new DriverAgent(10, 30, DRIVER_EMAIL, ws, dbs);
         da.setEndPoints(ENDPOINT_START, ENDPOINT_END);
         return da;

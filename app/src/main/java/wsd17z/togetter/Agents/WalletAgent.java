@@ -63,7 +63,7 @@ public class WalletAgent implements IWalletService
     public boolean transferFunds(String fromEmail, String toEmail, double value) {
         DbUserObject userFrom = dbManagementService.getUser(fromEmail);
         if (checkFunds(userFrom, value)) {
-            DbUserObject userTo = dbManagementService.getUser(fromEmail);
+            DbUserObject userTo = dbManagementService.getUser(toEmail);
             if (userTo != null) {
                 userFrom.subtractBalance(value);
                 userTo.addBalance(value);
