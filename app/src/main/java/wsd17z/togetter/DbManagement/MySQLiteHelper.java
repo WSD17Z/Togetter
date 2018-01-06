@@ -102,16 +102,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        DbUserObject user = new DbUserObject(
-            cursor.getString(0),
-            cursor.getString(1),
-            cursor.getString(2),
-            Integer.parseInt(cursor.getString(3))
-        );
-
-        Log.d("getUser("+login+")", user.toString());
-
-        return user;
+        if (cursor == null || cursor.getCount() <= 0) {
+            return null;
+        } else {
+            return new DbUserObject(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    Integer.parseInt(cursor.getString(3))
+            );
+        }
     }
 
     public List<DbUserObject> getAllUsers() {
@@ -209,25 +209,27 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        DbOfferObject offer = new DbOfferObject(
-                cursor.getDouble(3),
-                cursor.getInt(4) != 0,
-                cursor.getInt(5) != 0,
-                cursor.getInt(6) != 0,
-                cursor.getString(1),
-                cursor.getString(2)
-        );
-
-        return offer;
+        if (cursor == null || cursor.getCount() <= 0) {
+            return null;
+        } else {
+            return new DbOfferObject(
+                    cursor.getDouble(3),
+                    cursor.getInt(4) != 0,
+                    cursor.getInt(5) != 0,
+                    cursor.getInt(6) != 0,
+                    cursor.getString(1),
+                    cursor.getString(2)
+            );
+        }
     }
 
     public void deleteUnstartedOffers(String clientEmail) {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_OFFERS,
                 KEY_CLIENT + "=? AND " + KEY_STARTED + "=?",
-                new String[] { clientEmail, String.valueOf(false) });
+                new String[] { clientEmail, "0" });
 
         db.close();
     }

@@ -13,6 +13,10 @@ public class WalletService implements IWalletService {
     @ServiceComponent
     private WalletAgent agent;
 
+    public WalletService(WalletAgent ag) {
+        agent = ag;
+    }
+
     @Override
     public double getBalance(String email) {
         return agent.getBalance(email);

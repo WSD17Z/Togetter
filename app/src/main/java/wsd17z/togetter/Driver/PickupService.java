@@ -17,6 +17,10 @@ public class PickupService implements IPickupService {
     @ServiceComponent
     private DriverAgent agent;
 
+    public PickupService(DriverAgent driverAgent) {
+        agent = driverAgent;
+    }
+
     @Override
     public PickupOffer createPickupOffer(LatLng start, LatLng end, String email) {
         return agent.createPickupOffer(start, end, email);

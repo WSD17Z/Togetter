@@ -75,7 +75,7 @@ public class ChooseRoleActivity extends AppCompatActivity {
                         @Override
                         public void resultAvailable(IUserService result) {
                             result.setEmail(mLogin);
-                            // FOR TESTING PURPOSES start: Pustułeczki, end: Kazury
+                            // FOR TESTING PURPOSES start: Pustułeczki 40, end: Kazury 2
                             result.setEndPoints(52.144956, 21.018605, 52.138400, 21.047565);
                             if (finalAgentClass == ClientAgent.class) {
                                 final IFuture<IComponentIdentifier> futureCid1 = MainActivity.getPlatform().startComponent("togetterDriver1", DriverAgent.class);

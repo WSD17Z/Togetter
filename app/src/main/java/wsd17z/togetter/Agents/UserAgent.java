@@ -3,6 +3,9 @@ package wsd17z.togetter.Agents;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import org.junit.runners.JUnit4;
+
 import jadex.commons.Tuple2;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.Implementation;
@@ -55,7 +58,7 @@ public class UserAgent implements IUserService {
         if (mUserEmail == null) {
             mUserEmail = email;
         } else {
-            Log.w("SECURITY WARNING", "Trying to reset users login!");
+            //Log.w("SECURITY WARNING", "Trying to reset users login!");
         }
     }
 }

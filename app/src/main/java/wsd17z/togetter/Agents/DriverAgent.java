@@ -56,10 +56,10 @@ import wsd17z.togetter.Wallet.IWalletService;
 
 public class DriverAgent extends UserAgent implements IPickupService, IUserService
 {
-    private Set<LatLng> mWaypoints;
+    private Set<LatLng> mWaypoints = new ArraySet<>();
     private static final double DISTANCE_THRESHOLD = 10d;
     private static final double SAME_DIST_THRESHOLD = 1e-4;
-    private Map<String, PickupOffer> mClients;
+    private Map<String, PickupOffer> mClients = new HashMap<>();
     private String mUserInstanceID;
 
     @AgentFeature
@@ -78,14 +78,22 @@ public class DriverAgent extends UserAgent implements IPickupService, IUserServi
         Random rnd = new Random();
         mPricePerKm = rnd.nextInt(1000) / 100f;
         mMaxDelayMin = 30;
-        mWaypoints = new ArraySet<>();
-        mClients = new HashMap<>();
         mEndPoints = new Tuple2<>(
                 new LatLng(getRandomLat(rnd), getRandomLng(rnd)),
                 new LatLng(getRandomLat(rnd), getRandomLng(rnd))
         );
         mUserInstanceID = FirebaseInstanceId.getInstance().getToken();
         mUserEmail = "randomDriver" + String.valueOf(rnd.nextInt(1000)) + "@rnd" + String.valueOf(rnd.nextInt(1000)) + ".com";
+    }
+
+    public DriverAgent(float price, int delay, String email, IWalletService wallet, IDbManagementService db) {
+        mSuperAgentClass = this.getClass();
+        mPricePerKm = price;
+        mMaxDelayMin = delay;
+        mUserInstanceID = FirebaseInstanceId.getInstance().getToken();
+        mUserEmail = email;
+        walletService = wallet;
+        dbManagementService = db;
     }
 
     private double getRandomLat(Random rnd) {
@@ -232,7 +240,7 @@ public class DriverAgent extends UserAgent implements IPickupService, IUserServi
      */
     @Override
     public void startPickup(String driverEmail, String email) {
-        if (driverEmail != mUserEmail) {
+        if (!driverEmail.equals(mUserEmail)) {
             return;
         }
         if (mClients.containsKey(email)) {
@@ -255,7 +263,7 @@ public class DriverAgent extends UserAgent implements IPickupService, IUserServi
      */
     @Override
     public void endPickup(String driverEmail, String email) {
-        if (driverEmail != mUserEmail) {
+        if (!driverEmail.equals(mUserEmail)) {
             return;
         }
         if (mClients.containsKey(email)) {

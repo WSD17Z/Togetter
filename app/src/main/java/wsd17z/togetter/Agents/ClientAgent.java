@@ -90,6 +90,10 @@ public class ClientAgent extends UserAgent implements IRideService, IUserService
     public ClientAgent() {
         mSuperAgentClass = this.getClass();
     }
+    public ClientAgent(List<IPickupService> services) {
+        mSuperAgentClass = this.getClass();
+        pickupServices.addAll(services);
+    }
 
     @Override
     public IFuture<Void> refreshDrivers() {

@@ -13,6 +13,10 @@ public class DbManagementService implements IDbManagementService {
     @ServiceComponent
     private DbManagementAgent agent;
 
+    public DbManagementService(DbManagementAgent clientAgent) {
+        agent = clientAgent;
+    }
+
     @Override
     public DbUserObject getUser(String email)
     {

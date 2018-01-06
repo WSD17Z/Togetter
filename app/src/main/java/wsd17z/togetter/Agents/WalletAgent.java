@@ -11,6 +11,7 @@ import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.micro.annotation.RequiredService;
 import jadex.micro.annotation.RequiredServices;
+import wsd17z.togetter.DbManagement.DbManagementService;
 import wsd17z.togetter.DbManagement.DbUserObject;
 import wsd17z.togetter.DbManagement.IDbManagementService;
 import wsd17z.togetter.Wallet.IWalletService;
@@ -37,6 +38,10 @@ public class WalletAgent implements IWalletService
     @AgentBody
     public void executeBody() {
         dbManagementService = (IDbManagementService) requiredServicesFeature.getRequiredService("dbmanager").get();
+    }
+
+    public WalletAgent(IDbManagementService dbsrv) {
+        dbManagementService = dbsrv;
     }
 
     @Override

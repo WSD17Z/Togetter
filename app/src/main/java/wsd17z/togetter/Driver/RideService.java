@@ -16,6 +16,10 @@ public class RideService implements IRideService {
     @ServiceComponent
     private ClientAgent agent;
 
+    public RideService(ClientAgent clientAgent) {
+        agent = clientAgent;
+    }
+
     @Override
     public List<PickupOffer> queryForPickupOffers() {
         return agent.queryForPickupOffers();
