@@ -39,6 +39,7 @@ public class WalletAgent implements IWalletService
         dbManagementService = (IDbManagementService) requiredServicesFeature.getRequiredService("dbmanager").get();
     }
 
+    public WalletAgent() {}
     public WalletAgent(IDbManagementService dbsrv) {
         dbManagementService = dbsrv;
     }

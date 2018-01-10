@@ -17,6 +17,7 @@ public class PickupService implements IPickupService {
     @ServiceComponent
     private DriverAgent agent;
 
+    public PickupService() {}
     public PickupService(DriverAgent driverAgent) {
         agent = driverAgent;
     }

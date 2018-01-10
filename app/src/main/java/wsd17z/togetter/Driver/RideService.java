@@ -16,6 +16,7 @@ public class RideService implements IRideService {
     @ServiceComponent
     private ClientAgent agent;
 
+    public RideService() {}
     public RideService(ClientAgent clientAgent) {
         agent = clientAgent;
     }

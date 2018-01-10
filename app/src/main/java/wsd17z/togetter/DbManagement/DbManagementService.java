@@ -13,6 +13,7 @@ public class DbManagementService implements IDbManagementService {
     @ServiceComponent
     private DbManagementAgent agent;
 
+    public DbManagementService() {}
     public DbManagementService(DbManagementAgent clientAgent) {
         agent = clientAgent;
     }

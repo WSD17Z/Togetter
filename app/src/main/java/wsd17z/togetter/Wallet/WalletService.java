@@ -13,6 +13,7 @@ public class WalletService implements IWalletService {
     @ServiceComponent
     private WalletAgent agent;
 
+    public WalletService() {}
     public WalletService(WalletAgent ag) {
         agent = ag;
     }
